@@ -400,6 +400,6 @@ YUI.add('qrvoice', function (Y) {
     ]);
 }, '0.0.1', {
     lang: ['en-US', 'pt-BR'],
-    requires: ['node', 'json', 'jsonp', 'substitute', 'dd-constrain', 'node',
+    requires: ['node', 'json', 'jsonp', 'substitute', 'dd-constrain',
         'gallery-center', 'gallery-simpleslider', 'gallery-storage-lite']
 });
