@@ -10,7 +10,7 @@ YUI.add('qrvoice', function (Y) {
         APPID = 'qrvoice',
         BITLY_LOGIN = APPID,
         BITLY_APIKEY = 'R_039525bc02a0dbe1e6456752fdc17997',
-        BITLY_DOMAIN = 'http://j.mp/',
+        BITLY_DOMAIN = 'http://my.qrvoice.net/',
         URL_SHORTEN = 'http://api.bitly.com/v3/shorten?login=' + BITLY_LOGIN + '&apiKey=' + BITLY_APIKEY + '&longUrl={url}&format=json&callback={callback}',
         URL_VOICE = 'http://translate.google.com/translate_tts?ie=UTF-8&q={msg}&tl={lang}',
         URL_QRCODE = 'http://chart.apis.google.com/chart?cht=qr&choe=UTF-8&chs={size}x{size}&chl={url}',
