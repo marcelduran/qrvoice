@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-        <meta name="keywords" content="qr-code,qr-voice,qr,code,voice,message,image,google,translator,bitly,j.mp,short,url">
+        <meta name="keywords" content="qr-code,qr-voice,qr,code,voice,message,image,google,translator,bitly,short,url,shorten">
         <meta name="description" content="Generates qr-code for a synthesized voice message in several languages.">
         <meta name="author" content="Marcel Duran">
         <title>QR voice</title>
@@ -11,7 +11,7 @@
         <link rel="stylesheet" type="text/css" href="css/qrvoice.css">
     </head>
     <body>
-        <div id="doc" class="hidden">
+        <div id="doc">
             <div id="hd">
                 <div id="logo">
                     <div id="glow"></div>
@@ -106,6 +106,7 @@
                             modules: {
                                 'qrvoice': {
                                     lang: langs,
+                                    path: 'qrvoice/qrvoice.js',
                                     requires: ['node', 'json', 'jsonp', 'substitute', 'dd-constrain',
                                     'gallery-center', 'gallery-simpleslider', 'gallery-storage-lite']
                                 }

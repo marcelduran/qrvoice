@@ -331,7 +331,6 @@ YUI.add('qrvoice', function (Y) {
     img.set(TITLE, INTL.imgTitle);
     YONE('#disclaimer').setContent(INTL.disclaimer);
     intls.set(TITLE, INTL.intlsTitle);
-    YONE('#doc').removeClass(CLASS_HIDDEN);
 
     /**
      * Placeholder workaround for browsers that does not
