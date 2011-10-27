@@ -330,7 +330,9 @@ YUI.add('qrvoice', function (Y) {
     YONE('#slider-thumb').set(TITLE, INTL.resizeTitle);
     YONE('#qrlink').set(TITLE, INTL.linkTitle);
     link.set(TITLE, INTL.linkTitle);
-    img.set(TITLE, INTL.imgTitle);
+    img
+        .set(TITLE, INTL.imgTitle)
+        .set('alt', INTL.imgTitle)
     YONE('#disclaimer').setContent(INTL.disclaimer);
     intls.set(TITLE, INTL.intlsTitle);
 
