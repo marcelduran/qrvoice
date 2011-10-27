@@ -1,3 +1,5 @@
+/* Copyright (c) 2011, Marcel Duran */
+
 /*global YUI*/
 YUI.add('lang/qrvoice_en-US', function (Y) {
     'use strict';
