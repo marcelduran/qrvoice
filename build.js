@@ -47,18 +47,23 @@ var
 
     // js minifier
     minifyJSCode = function (code) {
-        var min = pro.gen_code(
-                pro.ast_squeeze(
-                    pro.ast_mangle(
-                        jsp.parse(code)
-                    )
+        var minified;
+        
+        // set version
+        code = code.replace(/, '\d+\.\d+\.\d+'/, ',\'' + version + '\'');
+
+        minified = pro.gen_code(
+            pro.ast_squeeze(
+                pro.ast_mangle(
+                    jsp.parse(code)
                 )
-            );
+            )
+        );
 
         return {
             type: 'JS',
             original: code,
-            minified: min
+            minified: minified
         };
     },
 
@@ -71,7 +76,7 @@ var
             fs.readFile(input, function (error, data) {
                 callback(input, output, {
                     type: 'CSS',
-                    original: data,
+                    original: data.toString('utf8'),
                     minified: stdout
                 });
             });
@@ -121,7 +126,7 @@ var
                 if (error) {
                     throw error;
                 }
-                data = conf.minifier(data.toString());
+                data = conf.minifier(data.toString('utf8'));
                 if (conf.pre) {
                     data.original += '\n' + conf.pre.original;
                     data.minified += '\n' + conf.pre.minified;
@@ -149,29 +154,33 @@ var
     goHTML = function () {
         // minify index.html inline js and html
         fs.readFile(SRC_DIR + INDEX_HTML, function (error, data) {
-            var minified,
-                reScript = /<script>([\s\S]+)<\/script>/,
-                content = reScript.exec(data)[1];
+            var minified, content,
+                reScript = /<script>([\s\S]+)<\/script>/;
 
             if (error) {
                 throw error;
             }
+
+            data = data.toString('utf8');
+            content = reScript.exec(data)[1];
+
             if (content) {
                 // remove filter, so use YUI default
-                content = content.replace(/(^|\s+)filter:.*,/, '');
+                content = content.replace(/\s*filter:.*,/, '');
 
                 // set combine = true
-                content = content.replace(/(^|\s+)combine:.*,/, 'combine:true,');
+                content = content.replace(/\s*combine:.*,/,
+                    'combine:true,');
 
                 // set module path
-                content = content.replace(/(^|\s+)path:.*,/,
+                content = content.replace(/\s*path:.*,/,
                     'path:\'qrvoice' + ts + '.js\',');
 
                 // minify code
                 content = minifyJSCode(content).minified;
 
                 // replace raw code with minified version
-                content = data.toString().replace(reScript, function (script) {
+                content = data.replace(reScript, function (script) {
                     return '<script>' + content + '</script>';
                 });
 
@@ -198,12 +207,12 @@ var
     // minify JSs after creating dirs
     goJS = function () {
         fs.readFile(SRC_DIR + JS_DIR + MAIN_JS, function (error, data) {
-            var minified = minifyJSCode(data.toString());
+            data = minifyJSCode(data.toString('utf8'));
 
             minifyDir(SRC_DIR + LANG_DIR, BUILD_DIR + COMBO_DIR, {
                 ext: '.js',
                 minifier: minifyJSCode,
-                pre: minified,
+                pre: data,
                 appendFilename: '&_' + MAIN_JS.replace('.js', ts + '.js')
             });
         });
@@ -222,6 +231,12 @@ var
 // set timestamp
 ts = '-' + ts.getFullYear().toString().slice(2) +
     (ts.getMonth() + 1) + ts.getDate();
+
+// get version
+version = fs.readFileSync(SRC_DIR + 'CHANGELOG')
+    .toString('utf8').split('\n')[0].split(' ');
+version = version[version.length - 1];
+console.log('QR voice ' + version);
 
 // build directories
 createDir(BUILD_DIR, goHTML);
