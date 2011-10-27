@@ -13,7 +13,6 @@ var
     JS_DIR = 'js/qrvoice/',
     LANG_DIR = JS_DIR + 'lang/',
     CSS_DIR = 'css/',
-    COMBO_DIR = 'js/_qrvoice/lang/',
     INDEX_HTML = 'index.html',
     FAVICON = 'favicon.ico',
     MAIN_JS = 'qrvoice.js',
@@ -127,13 +126,6 @@ var
                     throw error;
                 }
                 data = conf.minifier(data.toString('utf8'));
-                if (conf.pre) {
-                    data.original += '\n' + conf.pre.original;
-                    data.minified += '\n' + conf.pre.minified;
-                }
-                if (conf.appendFilename) {
-                    output += conf.appendFilename;
-                }
                 saveFile(input, output, data);
             });
         }
@@ -168,13 +160,14 @@ var
                 // remove filter, so use YUI default
                 content = content.replace(/\s*filter:.*,/, '');
 
-                // set combine = true
-                content = content.replace(/\s*combine:.*,/,
-                    'combine:true,');
+                // remove combine, so use YUI default
+                content = content.replace(/\s*combine:.*,/, '');
+                content = content.replace(/\s*comboBase:.*,/, '');
+                content = content.replace(/\s*root:.*,/, '');
 
                 // set module path
                 content = content.replace(/\s*path:.*,/,
-                    'path:\'qrvoice' + ts + '.js\',');
+                    'path:\'qrvoice/qrvoice' + ts + '.js\',');
 
                 // minify code
                 content = minifyJSCode(content).minified;
@@ -206,15 +199,14 @@ var
 
     // minify JSs after creating dirs
     goJS = function () {
-        fs.readFile(SRC_DIR + JS_DIR + MAIN_JS, function (error, data) {
-            data = minifyJSCode(data.toString('utf8'));
-
-            minifyDir(SRC_DIR + LANG_DIR, BUILD_DIR + COMBO_DIR, {
-                ext: '.js',
-                minifier: minifyJSCode,
-                pre: data,
-                appendFilename: '&_' + MAIN_JS.replace('.js', ts + '.js')
-            });
+        minifyDir(SRC_DIR + JS_DIR, BUILD_DIR + JS_DIR, {
+            ext: '.js',
+            minifier: minifyJSCode,
+            suffix: ts
+        });
+        minifyDir(SRC_DIR + LANG_DIR, BUILD_DIR + LANG_DIR, {
+            ext: '.js',
+            minifier: minifyJSCode
         });
     },
     
@@ -240,7 +232,7 @@ console.log('QR voice ' + version);
 
 // build directories
 createDir(BUILD_DIR, goHTML);
-createDir(BUILD_DIR + COMBO_DIR, goJS);
+createDir(BUILD_DIR + LANG_DIR, goJS);
 createDir(BUILD_DIR + CSS_DIR, goCSS);
 
 // copy images
