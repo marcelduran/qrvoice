@@ -391,8 +391,14 @@ YUI.add('qrvoice', function (Y) {
     socialIntl = intl === languageShort ? language : intl;
     /*jslint nomen: true*/
     WIN.___gcfg = {lang: socialIntl};
+    WIN._gaq = [
+        ['_setAccount', 'UA-26587471-1'],
+        ['_trackPageview'],
+        ['_trackPageLoadTime']
+    ];
     /*jslint nomen: false*/
     Y.Get.script([
+        '//www.google-analytics.com/ga.js',
         '//connect.facebook.net/' +
             (socialIntl.length > 2 ? socialIntl.replace('-', '_') : 'en_US') +
             '/all.js#xfbml=1',
