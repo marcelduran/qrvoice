@@ -1,3 +1,16 @@
+October 28, 2011 - Release 0.0.2
+
+    * ie6 compatible, fixed simple-storage onready issue
+    * viewport properly set, no warnings on chrome
+    * no auto-caps on mobile
+    * iphone icon for bookmarking
+    * iphone fullscreen when bookmarked
+    * labels for a11y
+    * social buttons and analytics JSs loaded async
+    * fixed last qr-code image size when reloading
+    * facebook opengraph metadata
+
+
 October 27, 2011 - Release 0.0.1
 
     * initial release
