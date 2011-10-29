@@ -5,8 +5,9 @@ YUI.add('qrvoice', function (Y) {
     'use strict';
     var
         // uninitialized variables
-        ratio, idx, search, params, placeholder, intl, currentSize,
-        listStr, langCount, currentLang, lastMsg, socialIntl, sliderWidth,
+        ratio, idx, search, params, placeholder, intl, currentSize, intls,
+        listStr, langCount, currentLang, lastMsg, lastLang, socialIntl,
+        sliderWidth, initialSize, img,
 
         // const
         APPID = 'qrvoice',
@@ -22,8 +23,6 @@ YUI.add('qrvoice', function (Y) {
         CLASS_HIDDEN = 'hidden',
         CLASS_SELECT = 'lng-sel',
         SEL_BODY = 'body',
-        SEL_FORM = '#form',
-        SEL_INTLS = '#intls',
         CLOSE_DIV = '</div>',
 
         // minifier helpers
@@ -38,8 +37,8 @@ YUI.add('qrvoice', function (Y) {
         STORAGEGET = STORAGE.getItem,
         STORAGESET = STORAGE.setItem,
         YNODE = Y.Node,
+        YNODECREATE = YNODE.create,
         YOBJEACH = Y.Object.each,
-        YARRAYSOME = Y.Array.some,
         ENCODE = encodeURIComponent,
         ROUND = Math.round,
         NULL = null,
@@ -60,16 +59,16 @@ YUI.add('qrvoice', function (Y) {
 
         // nodes
         body = YONE(SEL_BODY),
-        form = body.one(SEL_FORM),
+        form = body.one('#form'),
         msg = form.one('#msg'),
         size = body.one('#size'),
-        img = body.one('#qrcode'),
+        thumb = body.one('#slider-thumb'),
+        qrimg = body.one('#qrcode-wrp'),
         link = body.one('#qrlink'),
         sliderBox = body.one('#slider-box'),
         langList = form.one('#lang-lst'),
         langLink = form.one('#lang'),
         langName = form.one('#lang-name'),
-        intls = body.one(SEL_INTLS),
 
         // size slider
         slider = new Y.apm.SimpleSlider({
@@ -150,6 +149,12 @@ YUI.add('qrvoice', function (Y) {
                 return;
             }
             url = data.url;
+            // create image once
+            if (!img) {
+                img = YNODECREATE('<img id="qrcode" alt="' +
+                    INTL.imgTitle + '">');
+                qrimg.append(img);
+            }
             img.set('src', url);
             link.set('href', url).setContent(url);
             if (!init) {
@@ -189,15 +194,17 @@ YUI.add('qrvoice', function (Y) {
          */
         submitForm = function (e) {
             var voiceUrl, shortenUrl,
-                message = msg.get(VALUE);
+                message = msg.get(VALUE),
+                lang = getLang();
 
             e.halt();
-            if (message && lastMsg !== message) {
+            if (message && (lastMsg !== message || lastLang !== lang)) {
                 lastMsg = message;
+                lastLang = lang;
                 message = ENCODE(message);
                 voiceUrl = SUBS(URL_VOICE, {
                     msg: message,
-                    lang: getLang()
+                    lang: lang
                 });
                 shortenUrl = SUBS(URL_SHORTEN, {url: ENCODE(voiceUrl)});
                 Y.jsonp(shortenUrl, {
@@ -215,7 +222,7 @@ YUI.add('qrvoice', function (Y) {
     /**
      * Form submit event from either click button or hit ENTER.
      */
-    body.delegate('submit', submitForm, SEL_FORM);
+    form.on('submit', submitForm);
 
     /**
      * Capture clicks around to hide language list when visible.
@@ -251,43 +258,24 @@ YUI.add('qrvoice', function (Y) {
     }, '.lng');
 
     /**
-     * Set user interface language, persisting it and
-     * reloading the page to the new language take effect.
-     */
-    body.delegate('change', function () {
-        var selIntl = intls.get('options').item(intls.get('selectedIndex')).get(VALUE);
-
-        STORAGESET('intl', selIntl);
-        LOC.reload();
-    }, SEL_INTLS);
-
-    /**
      * Resize qr-code image when slider is changed. Updade image
      * dimensions label and persist last size selection.
      * Size is validated and adjusted when necessary.
      */
     slider.on('valueChange', function (e) {
-        var value = ROUND(e.newVal[0] * ratio) + SIZE_MIN;
+        var value = initialSize || ROUND(e.newVal[0] * ratio) + SIZE_MIN;
 
+        initialSize = 0;
         value = value < SIZE_MIN ? SIZE_MIN :
                 value > SIZE_MAX ? SIZE_MAX : value;
         currentSize = value;
         STORAGESET(SIZE, value);
         size.setContent(value + 'x' + value);
-        img.setStyles({
+        qrimg.setStyles({
             height: value,
             width: value
         });
     });
-
-    /**
-     * Set initial slider value from either a persisted value or from slider
-     * rail width. A ratio is used to appropriately set a valid size.
-     */
-    sliderWidth = parseInt(sliderBox.getStyle('width'), 10);
-    currentSize = STORAGEGET(SIZE) || sliderWidth;
-    ratio = (SIZE_MAX - SIZE_MIN + 1) / sliderWidth;
-    slider.update([ROUND((currentSize - SIZE_MIN) / ratio), 0]);
 
     /**
      * Check initial parameters from location (querystring and hash) looking
@@ -299,7 +287,7 @@ YUI.add('qrvoice', function (Y) {
     params = search.slice(1, idx).split('&').concat(
         LOC.hash.slice(1).split('&')
     );
-    YARRAYSOME(params, function (p) {
+    Y.Array.some(params, function (p) {
         var param = p.split('='),
             value = param[1];
 
@@ -324,24 +312,23 @@ YUI.add('qrvoice', function (Y) {
     msg
         .set(PLACEHOLDER, INTL.placeholder)
         .set(TITLE, INTL.msgTitle);
-    YONE('#gen')
-        .set(VALUE, INTL.genLabel)
-        .set(TITLE, INTL.genTitle);
-    YONE('#slider-thumb').set(TITLE, INTL.resizeTitle);
-    YONE('#qrlink').set(TITLE, INTL.linkTitle);
+    YONE('#lbl-msg').setContent(INTL.msgTitle);
+    YONE('#gen').set(TITLE, INTL.genTitle);
+    YONE('#lbl-gen').setContent(INTL.genLabel);
+    thumb.set(TITLE, INTL.resizeTitle);
     link.set(TITLE, INTL.linkTitle);
-    img
-        .set(TITLE, INTL.imgTitle)
-        .set('alt', INTL.imgTitle)
+    qrimg.set(TITLE, INTL.imgTitle);
+    YONE('#lbl-intls').setContent(INTL.intlsTitle);
     YONE('#disclaimer').setContent(INTL.disclaimer);
-    intls.set(TITLE, INTL.intlsTitle);
 
     /**
      * Placeholder workaround for browsers that does not
      * support html5 placeholder attribute.
      */
-    if (!YNODE.getDOMNode(msg).hasOwnProperty(PLACEHOLDER)) {
-        placeholder = YNODE.create(
+    if (Y.Lang.isUndefined(
+            YNODE.getDOMNode(YNODECREATE('<input>'))[PLACEHOLDER]
+        )) {
+        placeholder = YNODECREATE(
             '<label class="' + PLACEHOLDER + '" for="msg">' +
                 INTL.placeholder + '</label>'
         );
@@ -352,38 +339,73 @@ YUI.add('qrvoice', function (Y) {
     }
 
     /**
-     * Build spoken languages list and set the current language from
-     * persisted user's choice or browser default language.
-     */
-    setLang(STORAGEGET(LANG) || languageShort);
-    listStr = '<div id="lang-hd">' + INTL.spokenLang + CLOSE_DIV;
-    listStr += '<ul class="lang-col">';
-    langCount = 0;
-    YOBJEACH(langs, function (name, id) {
-        listStr += '<li><a class="lng' +
-            (id === currentLang ? ' ' + CLASS_SELECT : '') +
-            '" href="#" id="lng-' +
-            id + '">' + name + '</a><li>';
-        langCount += 1;
-        if (langCount % LANG_ROWS === 0) {
-            listStr += '</ul><ul class="lang-col">';
-        }
-    });
-    listStr += '</ul><div id="lang-ft">' + INTL.langsNote + CLOSE_DIV;
-    langList.setContent(listStr);
-
-    /**
      * Set intls list from available languages.
      */
     listStr = '';
     intl = YINTL.getLang(APPID);
     YOBJEACH(INTL.intls, function (value, key) {
         var ownName = value.ownName;
+
         listStr += '<option value="' + key + '"' +
             (key === intl ? ' selected' : '') + '>' +
             value.name + (ownName ? ' - ' + ownName : '') + '</option>';
     });
-    intls.setContent(listStr);
+    intls = YNODECREATE('<select id="intls" title="' + INTL.intlsTitle + '">' +
+        listStr + '</select>');
+    body.one('#intls-wrp').append(intls);
+
+    /**
+     * Set user interface language, persisting it and
+     * reloading the page to the new language take effect.
+     */
+    intls.on('change', function () {
+        var selIntl = intls.get('options').item(intls.get('selectedIndex')).get(VALUE);
+
+        STORAGESET('intl', selIntl);
+        LOC.reload();
+    });
+
+    /**
+     * Initialization depending on storage-lite readyness. IE<8 issue.
+     */
+    STORAGE.on('storage-lite:ready', function () {
+        /**
+         * Set initial slider value from either a persisted value or from slider
+         * rail width. A ratio is used to appropriately set a valid size.
+         */
+        sliderWidth = parseInt(sliderBox.getStyle('width'), 10);
+        ratio = (SIZE_MAX - SIZE_MIN + 1) / sliderWidth;
+        currentSize = STORAGEGET(SIZE);
+        if (currentSize) {
+            initialSize = currentSize;
+        } else {
+            currentSize = sliderWidth;
+        }
+        slider.update([ROUND((currentSize - SIZE_MIN) / ratio), 0]);
+        thumb.removeClass(CLASS_HIDDEN);
+        qrimg.removeClass(CLASS_HIDDEN);
+
+        /**
+         * Build spoken languages list and set the current language from
+         * persisted user's choice or browser default language.
+         */
+        setLang(STORAGEGET(LANG) || languageShort);
+        listStr = '<div id="lang-hd">' + INTL.spokenLang + CLOSE_DIV;
+        listStr += '<ul class="lang-col">';
+        langCount = 0;
+        YOBJEACH(langs, function (name, id) {
+            listStr += '<li><a class="lng' +
+                (id === currentLang ? ' ' + CLASS_SELECT : '') +
+                '" href="#" id="lng-' +
+                id + '">' + name + '</a></li>';
+            langCount += 1;
+            if (langCount % LANG_ROWS === 0) {
+                listStr += '</ul><ul class="lang-col">';
+            }
+        });
+        listStr += '</ul><div id="lang-ft">' + INTL.langsNote + CLOSE_DIV;
+        langList.setContent(listStr);
+    });
 
     /**
      * Insert social buttons for sharing and analytics tracking.
@@ -406,7 +428,7 @@ YUI.add('qrvoice', function (Y) {
             '/all.js#xfbml=1',
         '//platform.twitter.com/widgets.js',
         'https://apis.google.com/js/plusone.js'
-    ]);
+    ], {async: true});
 }, '0.0.1', {
     lang: ['en-US', 'pt-BR'],
     requires: ['node', 'json', 'jsonp', 'substitute', 'dd-constrain',
