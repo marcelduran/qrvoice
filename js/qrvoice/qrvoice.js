@@ -330,8 +330,9 @@ YUI.add('qrvoice', function (Y) {
     qrimg.set(TITLE, INTL.imgTitle);
     YONE('#lbl-intls').setContent(INTL.intlsTitle);
     YONE('#disclaimer').setContent(INTL.disclaimer);
-    fbLink.one(SEL_LBL).setContent(INTL.facebookButton);
-    twLink.one(SEL_LBL).setContent(INTL.twitterButton);
+    // TODO: remove hard-coded fallback once Intls support versioning
+    fbLink.one(SEL_LBL).setContent(INTL.facebookButton || 'Like');
+    twLink.one(SEL_LBL).setContent(INTL.twitterButton || 'Tweet');
 
     /**
      * Placeholder workaround for browsers that does not
