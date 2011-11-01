@@ -6,7 +6,7 @@ YUI.add('qrvoice', function (Y) {
     var
         // uninitialized variables
         ratio, idx, search, params, placeholder, intl, currentSize, intls,
-        listStr, langCount, currentLang, lastMsg, lastLang, socialIntl,
+        listStr, langCount, currentLang, lastMsg, lastLang,
         sliderWidth, initialSize, img,
 
         // const
@@ -17,11 +17,14 @@ YUI.add('qrvoice', function (Y) {
         URL_SHORTEN = 'http://api.bitly.com/v3/shorten?login=' + BITLY_LOGIN + '&apiKey=' + BITLY_APIKEY + '&longUrl={url}&format=json&callback={callback}',
         URL_VOICE = 'http://translate.google.com/translate_tts?ie=UTF-8&q={msg}&tl={lang}',
         URL_QRCODE = 'http://chart.apis.google.com/chart?cht=qr&choe=UTF-8&chs={size}x{size}&chl={url}',
+        URL_FACEBOOK = 'http://www.facebook.com/sharer.php?t=QR%20voice&u=http%253A%252F%252Fqrvoice.net%2F%3Fid%3D{id}',
+        URL_TWITTER = 'http://twitter.com/share?source=tweetbutton&text=QR%20voice&url=http%3A%2F%2Fqrvoice.net%2F%3Fid%3D{id}',
         SIZE_MIN = 33,
         SIZE_MAX = 547,
         LANG_ROWS = 10,
         CLASS_HIDDEN = 'hidden',
         CLASS_SELECT = 'lng-sel',
+        SEL_LBL = '.lbl',
         SEL_BODY = 'body',
         CLOSE_DIV = '</div>',
 
@@ -50,6 +53,7 @@ YUI.add('qrvoice', function (Y) {
         SIZE = 'size',
         RTL = 'rtl',
         ID = 'id',
+        HREF = 'href',
 
         // initialized variables
         reId = /[\d\w\-_]/g,
@@ -69,6 +73,8 @@ YUI.add('qrvoice', function (Y) {
         langList = form.one('#lang-lst'),
         langLink = form.one('#lang'),
         langName = form.one('#lang-name'),
+        fbLink = body.one('#social .facebook'),
+        twLink = body.one('#social .twitter'),
 
         // size slider
         slider = new Y.apm.SimpleSlider({
@@ -134,21 +140,22 @@ YUI.add('qrvoice', function (Y) {
 
         /**
          * Callback from shorten the final qr-code url from Google Charts
-         * API. It sets the image src, share link and set location for
-         * bookmarking.
+         * API. It sets the image src, share link, social links  and set
+         * location for bookmarking.
          * @param {Object} resp The response form bit.ly shorten,
          *        only data.url is used.
          * @param {Boolean} init When initializing jsut set src and link,
          *        not location. 
          */
         shortenQRCode = function (resp, init) {
-            var url,
+            var url, hash,
                 data = resp && resp.data;
 
             if (!data) {
                 return;
             }
             url = data.url;
+            hash = data.hash;
             // create image once
             if (!img) {
                 img = YNODECREATE('<img id="qrcode" alt="' +
@@ -156,9 +163,11 @@ YUI.add('qrvoice', function (Y) {
                 qrimg.append(img);
             }
             img.set('src', url);
-            link.set('href', url).setContent(url);
+            link.set(HREF, url).setContent(url);
+            fbLink.set(HREF, SUBS(URL_FACEBOOK, {id: hash}));
+            twLink.set(HREF, SUBS(URL_TWITTER, {id: hash}));
             if (!init) {
-                setLocation('id=' + url.slice(url.lastIndexOf('/') + 1));
+                setLocation('id=' + hash);
             }
         },
 
@@ -294,7 +303,8 @@ YUI.add('qrvoice', function (Y) {
         if (param[0] === ID && reId.test(value)) {
             shortenQRCode({
                 data: {
-                    url: BITLY_DOMAIN + value
+                    url: BITLY_DOMAIN + value,
+                    hash: value
                 }
             }, 1);
 
@@ -320,6 +330,8 @@ YUI.add('qrvoice', function (Y) {
     qrimg.set(TITLE, INTL.imgTitle);
     YONE('#lbl-intls').setContent(INTL.intlsTitle);
     YONE('#disclaimer').setContent(INTL.disclaimer);
+    fbLink.one(SEL_LBL).setContent(INTL.facebookButton);
+    twLink.one(SEL_LBL).setContent(INTL.twitterButton);
 
     /**
      * Placeholder workaround for browsers that does not
@@ -408,27 +420,18 @@ YUI.add('qrvoice', function (Y) {
     });
 
     /**
-     * Insert social buttons for sharing and analytics tracking.
-     * Get the appropriated language from user's interface selection.
+     * Insert google analytics tracking.
      */
-    YONE('.twitter-share-button').setAttribute('data-lang', intl.slice(0, 2));
-    socialIntl = intl === languageShort ? language : intl;
     /*jslint nomen: true*/
-    WIN.___gcfg = {lang: socialIntl};
     WIN._gaq = [
         ['_setAccount', 'UA-26587471-1'],
         ['_trackPageview'],
         ['_trackPageLoadTime']
     ];
     /*jslint nomen: false*/
-    Y.Get.script([
-        '//www.google-analytics.com/ga.js',
-        '//connect.facebook.net/' +
-            (socialIntl.length > 2 ? socialIntl.replace('-', '_') : 'en_US') +
-            '/all.js#xfbml=1',
-        '//platform.twitter.com/widgets.js',
-        'https://apis.google.com/js/plusone.js'
-    ], {async: true});
+    Y.later(0, NULL, function () {
+        Y.Get.script('//www.google-analytics.com/ga.js', {async: true});
+    });
 }, '0.0.1', {
     lang: ['en-US', 'pt-BR'],
     requires: ['node', 'json', 'jsonp', 'substitute', 'dd-constrain',

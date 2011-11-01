@@ -58,6 +58,8 @@ YUI.add('lang/qrvoice_pt-BR', function (Y) {
         'resizeTitle': 'redimensionar qr-code',
         linkTitle: 'link para esta imagem de qr-code',
         imgTitle: 'qr-code para reproduzir a mensagem, salve/capture esta imagem ou use o link acima',
+        facebookButton: 'Curtir',
+        twitterButton: 'Tweetar',
         intls: { // user interface language
             'en-US': {
                 name: 'inglês (Estados Unidos)',
