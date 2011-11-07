@@ -219,6 +219,7 @@ label {
 }
 #qrcode-wrp {
     border: 1px solid #acacac;
+    display: block;
     margin: .5em auto;
 }
 #qrcode {

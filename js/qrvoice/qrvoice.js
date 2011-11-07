@@ -173,6 +173,7 @@ YUI.add('qrvoice', function (Y) {
                 qrimg.append(img);
             }
             img.set('src', url);
+            qrimg.set(HREF, url);
             link.set(HREF, url).setContent(url);
             fbLink.set(HREF, SUBS(URL_FACEBOOK, {id: hash}));
             twLink.set(HREF, SUBS(URL_TWITTER, {id: hash}));

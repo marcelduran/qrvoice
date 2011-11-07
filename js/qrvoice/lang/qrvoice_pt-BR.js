@@ -57,7 +57,7 @@ YUI.add('lang/qrvoice_pt-BR', function (Y) {
         langsNote: 'línguas para reprodução de áudio, não para tradução',
         'resizeTitle': 'redimensionar qr-code',
         linkTitle: 'link para esta imagem de qr-code',
-        imgTitle: 'qr-code para reproduzir a mensagem, salve/capture esta imagem ou use o link acima',
+        imgTitle: 'qr-code para reproduzir a mensagem, salve/capture esta imagem ou copie o link acima',
         facebookButton: 'Curtir',
         twitterButton: 'Tweetar',
         intls: { // user interface language
