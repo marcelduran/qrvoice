@@ -1,3 +1,14 @@
+November 7, 2011 - Release 0.0.4
+
+    * better loading strategy for ie < 8, all browsers and mobile
+    * loading Google Analytics in parallel
+    * qr-code link easy to copy on hover
+    * message limit of 99 chars due to Google TTS limitation
+    * inline image (mhtml) for ie < 8
+    * no more ie < 8 hacks, using dedicated css file instead 
+    * main js and intl lang pack js combined
+
+
 November 1, 2011 - Release 0.0.3
 
     * qr-code link easier to select and copy
