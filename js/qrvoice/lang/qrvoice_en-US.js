@@ -7,7 +7,7 @@ YUI.add('lang/qrvoice_en-US', function (Y) {
         direction: 'ltr', // left-to-right
         tagline: 'when a picture is literally worth a thousand words',
         placeholder: 'say what?',
-        msgTitle: 'text to speech',
+        msgTitle: 'text to speech (99 characters maximum length)',
         genLabel: 'generate',
         genTitle: 'generate qr-voice',
         whichLang: 'in {lang}',

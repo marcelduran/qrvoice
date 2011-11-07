@@ -7,7 +7,7 @@ YUI.add('lang/qrvoice_pt-BR', function (Y) {
         direction: 'ltr', // left-to-right
         tagline: 'quando uma imagem vale literalmente mil palavras',
         placeholder: 'dizer o quê?',
-        msgTitle: 'texto à ser falado',
+        msgTitle: 'texto à ser falado (no máximo 99 caracteres)',
         genLabel: 'gerar',
         genTitle: 'gerar qr-voice',
         whichLang: 'em {lang}',
