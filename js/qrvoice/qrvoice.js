@@ -6,7 +6,7 @@ YUI.add('qrvoice', function (Y) {
     var
         // uninitialized variables
         ratio, idx, search, params, placeholder, intl, currentSize, intls,
-        listStr, langCount, currentLang, lastMsg, lastLang,
+        listStr, currentLang, lastMsg, lastLang,
         sliderWidth, initialSize, img,
 
         // const
@@ -24,15 +24,18 @@ YUI.add('qrvoice', function (Y) {
         LANG_ROWS = 10,
         CLASS_HIDDEN = 'hidden',
         CLASS_SELECT = 'lng-sel',
+        CLASS_INVISIBLE = 'invis',
         SEL_LBL = '.lbl',
         SEL_BODY = 'body',
-        CLOSE_DIV = '</div>',
+        SEL_LINK = '#qrlink',
+        SEL_COPY = '#qrcopy',
 
         // minifier helpers
         YONE = Y.one,
         YINTL = Y.Intl,
         INTL = YINTL.get(APPID),
-        SUBS = Y.substitute,
+        YLANG = Y.Lang,
+        SUBS = YLANG.sub,
         WIN = Y.config.win,
         LOC = WIN.location,
         NAV = WIN.navigator,
@@ -42,6 +45,7 @@ YUI.add('qrvoice', function (Y) {
         YNODE = Y.Node,
         YNODECREATE = YNODE.create,
         YOBJEACH = Y.Object.each,
+        DOMNODE = YNODE.getDOMNode,
         ENCODE = encodeURIComponent,
         ROUND = Math.round,
         NULL = null,
@@ -60,6 +64,7 @@ YUI.add('qrvoice', function (Y) {
         langs = INTL.langs,
         language = NAV.userLanguage || NAV.language,
         languageShort = language.slice(0, 2).toLowerCase(),
+        langCount = 0,
 
         // nodes
         body = YONE(SEL_BODY),
@@ -68,7 +73,9 @@ YUI.add('qrvoice', function (Y) {
         size = body.one('#size'),
         thumb = body.one('#slider-thumb'),
         qrimg = body.one('#qrcode-wrp'),
-        link = body.one('#qrlink'),
+        link = body.one(SEL_LINK),
+        copy = body.one(SEL_COPY),
+        copyNode = DOMNODE(copy),
         sliderBox = body.one('#slider-box'),
         langList = form.one('#lang-lst'),
         langLink = form.one('#lang'),
@@ -158,8 +165,11 @@ YUI.add('qrvoice', function (Y) {
             hash = data.hash;
             // create image once
             if (!img) {
-                img = YNODECREATE('<img id="qrcode" alt="' +
-                    INTL.imgTitle + '">');
+                img = YNODECREATE(
+                    SUBS('<img id="qrcode" alt="{alt}">', {
+                        alt: INTL.imgTitle
+                    })
+                );
                 qrimg.append(img);
             }
             img.set('src', url);
@@ -267,6 +277,22 @@ YUI.add('qrvoice', function (Y) {
     }, '.lng');
 
     /**
+     * Make qr-code image link easy to copy by
+     * replacing it by a selected input text box.
+     */
+    body.delegate('mouseover', function () {
+        link.addClass(CLASS_INVISIBLE);
+        copy.removeClass(CLASS_INVISIBLE)
+            .set(VALUE, link.getContent());
+        copyNode.focus();
+        copyNode.select();
+    }, SEL_LINK);
+    body.delegate('mouseout', function () {
+        link.removeClass(CLASS_INVISIBLE);
+        copy.addClass(CLASS_INVISIBLE);
+    }, SEL_COPY);
+
+    /**
      * Resize qr-code image when slider is changed. Updade image
      * dimensions label and persist last size selection.
      * Size is validated and adjusted when necessary.
@@ -330,20 +356,21 @@ YUI.add('qrvoice', function (Y) {
     qrimg.set(TITLE, INTL.imgTitle);
     YONE('#lbl-intls').setContent(INTL.intlsTitle);
     YONE('#disclaimer').setContent(INTL.disclaimer);
-    // TODO: remove hard-coded fallback once Intls support versioning
-    fbLink.one(SEL_LBL).setContent(INTL.facebookButton || 'Like');
-    twLink.one(SEL_LBL).setContent(INTL.twitterButton || 'Tweet');
+    fbLink.one(SEL_LBL).setContent(INTL.facebookButton);
+    twLink.one(SEL_LBL).setContent(INTL.twitterButton);
 
     /**
      * Placeholder workaround for browsers that does not
      * support html5 placeholder attribute.
      */
-    if (Y.Lang.isUndefined(
-            YNODE.getDOMNode(YNODECREATE('<input>'))[PLACEHOLDER]
+    if (YLANG.isUndefined(
+            DOMNODE(YNODECREATE('<input>'))[PLACEHOLDER]
         )) {
         placeholder = YNODECREATE(
-            '<label class="' + PLACEHOLDER + '" for="msg">' +
-                INTL.placeholder + '</label>'
+            SUBS('<label class="{cls}" for="msg">{lbl}</label>', {
+                cls: PLACEHOLDER,
+                lbl: INTL.placeholder
+            })
         );
         form.append(placeholder);
         setPlaceholder();
@@ -359,12 +386,18 @@ YUI.add('qrvoice', function (Y) {
     YOBJEACH(INTL.intls, function (value, key) {
         var ownName = value.ownName;
 
-        listStr += '<option value="' + key + '"' +
-            (key === intl ? ' selected' : '') + '>' +
-            value.name + (ownName ? ' - ' + ownName : '') + '</option>';
+        listStr += SUBS('<option value="{key}"{sel}>{opt}</option>', {
+            key: key,
+            sel: key === intl ? ' selected' : '',
+            opt: value.name + (ownName ? ' - ' + ownName : '')
+        });
     });
-    intls = YNODECREATE('<select id="intls" title="' + INTL.intlsTitle + '">' +
-        listStr + '</select>');
+    intls = YNODECREATE(
+        SUBS('<select id="intls" title="{title}">{opts}</select>', {
+            title: INTL.intlsTitle,
+            opts: listStr
+        })
+    );
     body.one('#intls-wrp').append(intls);
 
     /**
@@ -403,38 +436,33 @@ YUI.add('qrvoice', function (Y) {
          * persisted user's choice or browser default language.
          */
         setLang(STORAGEGET(LANG) || languageShort);
-        listStr = '<div id="lang-hd">' + INTL.spokenLang + CLOSE_DIV;
-        listStr += '<ul class="lang-col">';
-        langCount = 0;
+        listStr = SUBS(
+            '<div id="lang-hd">{title}</div><ul class="lang-col">',
+            {
+                title: INTL.spokenLang
+            }
+        );
         YOBJEACH(langs, function (name, id) {
-            listStr += '<li><a class="lng' +
-                (id === currentLang ? ' ' + CLASS_SELECT : '') +
-                '" href="#" id="lng-' +
-                id + '">' + name + '</a></li>';
+            listStr += SUBS(
+                '<li><a class="lng{cls}" href="#" id="lng-{id}">{name}</a></li>',
+                {
+                    cls: id === currentLang ? ' ' + CLASS_SELECT : '',
+                    id: id,
+                    name: name
+                }
+            );
             langCount += 1;
             if (langCount % LANG_ROWS === 0) {
                 listStr += '</ul><ul class="lang-col">';
             }
         });
-        listStr += '</ul><div id="lang-ft">' + INTL.langsNote + CLOSE_DIV;
+        listStr += SUBS('</ul><div id="lang-ft">{note}</div>', {
+            note: INTL.langsNote
+        });
         langList.setContent(listStr);
-    });
-
-    /**
-     * Insert google analytics tracking.
-     */
-    /*jslint nomen: true*/
-    WIN._gaq = [
-        ['_setAccount', 'UA-26587471-1'],
-        ['_trackPageview'],
-        ['_trackPageLoadTime']
-    ];
-    /*jslint nomen: false*/
-    Y.later(0, NULL, function () {
-        Y.Get.script('//www.google-analytics.com/ga.js', {async: true});
     });
 }, '0.0.1', {
     lang: ['en-US', 'pt-BR'],
-    requires: ['node', 'json', 'jsonp', 'substitute', 'dd-constrain',
+    requires: ['node', 'json', 'jsonp', 'dd-constrain',
         'gallery-center', 'gallery-simpleslider', 'gallery-storage-lite']
 });
