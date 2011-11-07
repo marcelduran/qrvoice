@@ -13,10 +13,15 @@ var
     JS_DIR = 'js/qrvoice/',
     LANG_DIR = JS_DIR + 'lang/',
     CSS_DIR = 'css/',
+    CSS_URL = 'http://qrvoice.net/' + CSS_DIR,
     INDEX_HTML = 'index.html',
     FAVICON = 'favicon.ico',
+    LOGO = 'logo.png',
     MAIN_JS = 'qrvoice.js',
     MAIN_CSS = 'qrvoice.css',
+    IE_MHT = 'qrvoice.mht',
+    IE_CSS = 'qrvoice.ie',
+    IE_MHTML = 'qrvoice.mhtml',
     YUICOMPRESSOR = 'java -jar ~/bin/yuicompressor-2.4.6.jar ',
     COPYRIGHT = 'Copyright (c) ' +
         (new Date()).getFullYear() + ', Marcel Duran',
@@ -110,13 +115,19 @@ var
 
     // minify file
     minifyFile = function (input, output, conf) {
-        var idx, ext;
+        var addSuffix = function (name) {
+                var ext,
+                    idx = name.lastIndexOf('.');
+                idx = idx > -1 ? idx : name.length;
+                ext = name.slice(idx);
+                return name.slice(0, idx) + conf.suffix + ext;
+            };
         
         if (conf.suffix) {
-            idx = output.lastIndexOf('.');
-            idx = idx > -1 ? idx : output.length;
-            ext = output.slice(idx);
-            output = output.slice(0, idx) + conf.suffix + ext;
+            output = addSuffix(output);
+        }
+        if (conf.append) {
+            output += conf.append;
         }
         if (conf.async) {
             conf.minifier(input, output, saveFile);
@@ -126,7 +137,15 @@ var
                     throw error;
                 }
                 data = conf.minifier(data.toString('utf8'));
-                saveFile(input, output, data);
+                if (conf.post) {
+                    data.minified += conf.term + conf.post.minified;
+                    data.original += conf.term + conf.post.original;
+                }
+                if (conf.callback) {
+                    conf.callback(data, '_' + addSuffix(conf.filename));
+                } else {
+                    saveFile(input, output, data);
+                }
             });
         }
     };
@@ -136,6 +155,7 @@ var
         fs.readdir(srcDir, function (error, files) {
             files.forEach(function (filename) {
                 if (filename.slice(filename.lastIndexOf('.')) === conf.ext) {
+                    conf.filename = filename;
                     minifyFile(srcDir + filename, destDir + filename, conf);
                 }
             });
@@ -146,54 +166,51 @@ var
     goHTML = function () {
         // minify index.html inline js and html
         fs.readFile(SRC_DIR + INDEX_HTML, function (error, data) {
-            var minified, content,
-                reScript = /<script>([\s\S]+)<\/script>/;
+            var minified,
+                reScript = /<script>([\d\w\s\-:=;,\.\(\)\{\}\/\\\|&'\[\]!\+\?]+)<\/script>/g;
 
             if (error) {
                 throw error;
             }
 
-            data = data.toString('utf8');
-            content = reScript.exec(data)[1];
-
-            if (content) {
+            data = data.toString('utf8').replace(reScript, function (all, match) {
                 // remove filter, so use YUI default
-                content = content.replace(/\s*filter:.*,/, '');
+                match = match.replace(/\s*filter:.*,/, '');
 
-                // remove combine, so use YUI default
-                content = content.replace(/\s*combine:.*,/, '');
-                content = content.replace(/\s*comboBase:.*,/, '');
-                content = content.replace(/\s*root:.*,/, '');
+                // combine
+                match = match.replace(/\s*base:.*,/, '');
+                match = match.replace(/\s*combine:.*,/g, 'combine:true,');
 
                 // set module path
-                content = content.replace(/\s*path:.*,/,
-                    'path:\'qrvoice/qrvoice' + ts + '.js\',');
+                match = match.replace(/\s*path:.*,/,
+                    'path:\'qrvoice' + ts + '.js\',');
 
                 // minify code
-                content = minifyJSCode(content).minified;
+                return '<script>' + minifyJSCode(match).minified + '</script>';
+            });
 
-                // replace raw code with minified version
-                content = data.replace(reScript, function (script) {
-                    return '<script>' + content + '</script>';
-                });
+            // set css path
+            data = data.replace(RegExp(MAIN_CSS, 'g'),
+                MAIN_CSS.replace('.', ts + '.'));
+            data = data.replace(RegExp(IE_MHT, 'g'),
+                IE_MHT.replace('.', + ts + '.'));
 
-                // set css path
-                content = content.replace(MAIN_CSS,
-                    MAIN_CSS.replace('.css', ts + '.css'));
+            // minify html
+            minified = htmlMinifier.minify(data, {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true
+            });
 
-                // minify html
-                minified = htmlMinifier.minify(content, {
-                    removeComments: true,
-                    collapseWhitespace: true
-                });
+            // hack: add closing ie conditional comments
+            minified = minified.replace('</head>', '<!--<![endif]--></head>');
 
-                // write output
-                saveFile(SRC_DIR + INDEX_HTML, BUILD_DIR + INDEX_HTML, {
-                    type: 'HTML',
-                    original: content,
-                    minified: minified
-                });
-            }
+            // write output
+            saveFile(SRC_DIR + INDEX_HTML, BUILD_DIR + INDEX_HTML, {
+                type: 'HTML',
+                original: data,
+                minified: minified
+            });
         });
     };
 
@@ -202,11 +219,16 @@ var
         minifyDir(SRC_DIR + JS_DIR, BUILD_DIR + JS_DIR, {
             ext: '.js',
             minifier: minifyJSCode,
-            suffix: ts
-        });
-        minifyDir(SRC_DIR + LANG_DIR, BUILD_DIR + LANG_DIR, {
-            ext: '.js',
-            minifier: minifyJSCode
+            suffix: ts,
+            callback: function (post, append) {
+                minifyDir(SRC_DIR + LANG_DIR, BUILD_DIR + LANG_DIR, {
+                    ext: '.js',
+                    minifier: minifyJSCode,
+                    post: post,
+                    append: append,
+                    term: ';'
+                });
+            }
         });
     },
     
@@ -217,6 +239,44 @@ var
             minifier: minifyCSSCode,
             suffix: ts,
             async: true
+        });
+        // IE [6,7]
+        // get main css content
+        fs.readFile(SRC_DIR + CSS_DIR + MAIN_CSS, function (err, css) {
+            css = css.toString('utf8');
+            // replace data uri from main css
+            css = css.replace(/url\(data:.+\)/, 'url(mhtml:{CSS_URL}!qr)');
+            css = css.replace(/url\(data:.+\)/, 'url(mhtml:{CSS_URL}!icons)');
+            // get ie css content
+            fs.readFile(SRC_DIR + CSS_DIR + IE_CSS, function (err, ie) {
+                // generate temp file for yuicompressor and final css ie filename
+                var filename = 'qr_' + parseInt(Math.random() * 1e9, 10) + '.css',
+                    cssFilename = IE_MHT.replace('.', ts + '.');
+                ie = ie.toString('utf8');
+                // assign new css ie filename to mhtml refs
+                css = css.replace(/\{CSS_URL\}/g, CSS_URL + cssFilename);
+                // save content of main css and ie css into temp file
+                fs.writeFile(TMP_DIR + filename, css + ie, function (error) {
+                    if (error) {
+                        throw error;
+                    }
+                    // minify temp css file
+                    minifyCSSCode(TMP_DIR + filename, null, function (input, output, data) {
+                        // remove temp file
+                        fs.unlink(TMP_DIR + filename);
+                        // get mhtml content
+                        fs.readFile(SRC_DIR + CSS_DIR + IE_MHTML, function (err, mhtml) {
+                            // prepend html into minified css
+                            mhtml = mhtml.toString('utf8');
+                            data.original = mhtml + data.original;
+                            data.minified = mhtml + data.minified;
+                            // save final css ie file
+                            saveFile(TMP_DIR + filename, BUILD_DIR + CSS_DIR +
+                                cssFilename, data);
+                        });
+                    });
+                });
+            });
         });
     };
 
@@ -234,7 +294,9 @@ console.log('QR voice ' + version);
 createDir(BUILD_DIR, goHTML);
 createDir(BUILD_DIR + LANG_DIR, goJS);
 createDir(BUILD_DIR + CSS_DIR, goCSS);
+createDir(BUILD_DIR + IMG_DIR, function () {
+    copyFiles(SRC_DIR + IMG_DIR + LOGO, BUILD_DIR + IMG_DIR + LOGO);
+});
 
-// copy images
-copyFiles(SRC_DIR + IMG_DIR, BUILD_DIR + IMG_DIR);
+// copy favicon
 copyFiles(SRC_DIR + FAVICON, BUILD_DIR + FAVICON);
