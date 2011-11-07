@@ -1,0 +1,37 @@
+#tip, #itip {
+    display: none;
+}
+#scan {
+    left: 0;
+    top: -8px;
+}
+#gen {
+    margin-top: 1px;
+}
+.arrow {
+    border: none;
+    margin: -15px -15px 0 0;
+}
+#lang-lst {
+    left: 0;
+}
+.lang-col {
+    display: inline;
+    width: 24%;
+}
+#slider-box {
+    border: none;
+    height: 31px;
+    padding: 0;
+    width: 99%;
+}
+#slider-value {
+    background: #eee;
+}
+.facebook .icon {
+    overflow: hidden;
+    top: 5px;
+}
+.twitter .icon {
+    top: 6px;
+}
