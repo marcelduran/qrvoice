@@ -16,7 +16,9 @@
         <title>QR voice</title>
         <base target="_blank">
         <link rel="apple-touch-icon" href="/images/logo.png">
-        <link rel="stylesheet" type="text/css" href="css/qrvoice.css">
+        <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="css/qrvoice.mht"><!-- <![endif]-->
+        <!--[if gte IE 8]><link rel="stylesheet" type="text/css" href="css/qrvoice.css"><!-- <![endif]-->
+        <!--[if !IE]> --><link rel="stylesheet" type="text/css" href="css/qrvoice.css"><!-- <![endif]-->
     </head>
     <body>
         <div id="doc">
@@ -37,11 +39,11 @@
                 <div id="frm-wrp">
                     <div id="frm-msg">
                         <label id="lbl-msg" for="msg"></label>
-                        <input type="text" id="msg" placeholder="" speech="speech" x-webkit-speech="x-webkit-speech" x-webkit-grammar="builtin:translate" autocapitalize="off">
+                        <input type="text" id="msg" maxlength="99" speech="speech" x-webkit-speech="x-webkit-speech" x-webkit-grammar="builtin:translate" autocapitalize="off">
                         <div id="lang-wrp">
                             <a id="lang" href="#lang">
                                 <span id="lang-name"></span>
-                                <span class="arrow"></span>
+                                <span class="arrow">&darr;</span>
                             </a>
                         </div>
                     </div>
@@ -58,6 +60,7 @@
                 </div> 
             </div>
             <a id="qrlink"></a>
+            <input type="text" id="qrcopy" class="invis" spellcheck="false">
             <div id="qrcode-wrp" class="hidden"></div>
             <div id="size"></div>
             <div id="social">
@@ -87,52 +90,94 @@
                 <div id="disclaimer"></div>
             </div>
         </div>
-        <div id="fb-root"></div>
-        <script src="//yui.yahooapis.com/combo?3.4.1/build/yui/yui-min.js&3.4.1/build/loader/loader-min.js&3.4.1/build/oop/oop-min.js&3.4.1/build/event-custom-base/event-custom-base-min.js&3.4.1/build/event-custom-complex/event-custom-complex-min.js&3.4.1/build/intl/intl-min.js&3.4.1/build/dom-core/dom-core-min.js&3.4.1/build/dom-base/dom-base-min.js&3.4.1/build/selector-native/selector-native-min.js&3.4.1/build/selector/selector-min.js&3.4.1/build/node-core/node-core-min.js&3.4.1/build/node-base/node-base-min.js&3.4.1/build/event-base/event-base-min.js&3.4.1/build/event-delegate/event-delegate-min.js&3.4.1/build/node-event-delegate/node-event-delegate-min.js&3.4.1/build/pluginhost-base/pluginhost-base-min.js&3.4.1/build/pluginhost-config/pluginhost-config-min.js&3.4.1/build/node-pluginhost/node-pluginhost-min.js&3.4.1/build/dom-style/dom-style-min.js&3.4.1/build/dom-screen/dom-screen-min.js&3.4.1/build/node-screen/node-screen-min.js&3.4.1/build/node-style/node-style-min.js&3.4.1/build/json-parse/json-parse-min.js&3.4.1/build/json-stringify/json-stringify-min.js&3.4.1/build/jsonp/jsonp-min.js&3.4.1/build/substitute/substitute-min.js&3.4.1/build/attribute-base/attribute-base-min.js&3.4.1/build/base-base/base-base-min.js&3.4.1/build/base-pluginhost/base-pluginhost-min.js&3.4.1/build/base-build/base-build-min.js&3.4.1/build/yui-throttle/yui-throttle-min.js&3.4.1/build/classnamemanager/classnamemanager-min.js&3.4.1/build/dd-ddm-base/dd-ddm-base-min.js&3.4.1/build/dd-drag/dd-drag-min.js&3.4.1/build/dd-constrain/dd-constrain-min.js&gallery-2011.09.14-20-40/build/gallery-center/gallery-center-min.js&gallery-2011.09.14-20-40/build/gallery-simpleslider/gallery-simpleslider-min.js&gallery-2011.09.14-20-40/build/gallery-storage-lite/gallery-storage-lite-min.js"></script>
+        <!--[if lte IE 8]><script>U='&3.4.1/build/event-base-ie/event-base-ie-min.js&3.4.1/build/dom-style-ie/dom-style-ie-min.js'</script><!-- <![endif]-->
+        <!--[if lte IE 7]><script>U+='&3.4.1/build/selector-css2/selector-css2-min.js'</script><!-- <![endif]-->
         <script>
-            YUI().use('gallery-storage-lite', function (Y) {
-                var fallback,
-                    langs = ['en-US', 'pt-BR'],
-                    lang = navigator.userLanguage || navigator.language,
-                    langShort = lang.slice(0, 2),
-                    STORAGE = Y.StorageLite;
-
-                Y.Array.some(langs, function (lng) {
-                    if (lng.slice(0, 2) === langShort) {
-                        fallback = lng;
-                        return fallback;
+            (function (doc, tag, url, node, loader) {
+                url = '//yui.yahooapis.com/combo?3.4.1/build/yui/yui-min.js&3.4.1/build/loader/loader-min.js&3.4.1/build/oop/oop-min.js&3.4.1/build/event-custom-base/event-custom-base-min.js&3.4.1/build/event-custom-complex/event-custom-complex-min.js&3.4.1/build/intl/intl-min.js&3.4.1/build/dom-core/dom-core-min.js&3.4.1/build/dom-base/dom-base-min.js&3.4.1/build/selector-native/selector-native-min.js&3.4.1/build/selector/selector-min.js&3.4.1/build/node-core/node-core-min.js&3.4.1/build/node-base/node-base-min.js&3.4.1/build/event-base/event-base-min.js&3.4.1/build/event-delegate/event-delegate-min.js&3.4.1/build/node-event-delegate/node-event-delegate-min.js&3.4.1/build/pluginhost-base/pluginhost-base-min.js&3.4.1/build/pluginhost-config/pluginhost-config-min.js&3.4.1/build/node-pluginhost/node-pluginhost-min.js&3.4.1/build/dom-style/dom-style-min.js&3.4.1/build/dom-screen/dom-screen-min.js&3.4.1/build/node-screen/node-screen-min.js&3.4.1/build/node-style/node-style-min.js&3.4.1/build/json-parse/json-parse-min.js&3.4.1/build/json-stringify/json-stringify-min.js&3.4.1/build/jsonp/jsonp-min.js&3.4.1/build/attribute-base/attribute-base-min.js&3.4.1/build/base-base/base-base-min.js&3.4.1/build/base-pluginhost/base-pluginhost-min.js&3.4.1/build/base-build/base-build-min.js&3.4.1/build/yui-throttle/yui-throttle-min.js&3.4.1/build/classnamemanager/classnamemanager-min.js&3.4.1/build/dd-ddm-base/dd-ddm-base-min.js&3.4.1/build/dd-drag/dd-drag-min.js&3.4.1/build/dd-constrain/dd-constrain-min.js&gallery-2011.09.14-20-40/build/gallery-center/gallery-center-min.js&gallery-2011.09.14-20-40/build/gallery-simpleslider/gallery-simpleslider-min.js&gallery-2011.09.14-20-40/build/gallery-storage-lite/gallery-storage-lite-min.js';
+        
+                if ('ontouchstart' in window && !/Chrome\//.test(navigator.userAgent)) {
+                    url += '&3.4.1/build/event-synthetic/event-synthetic-min.js&3.4.1/build/event-touch/event-touch-min.js&3.4.1/build/event-flick/event-flick-min.js&3.4.1/build/event-move/event-move-min.js&3.4.1/build/dd-gestures/dd-gestures-min.js';
+                }
+                if (typeof U !== 'undefined') {
+                    url += U;
+                }
+                node = doc.getElementsByTagName(tag)[0];
+                loader = function (src, callback, script) {
+                    script = doc.createElement(tag);
+                    script.src = src;
+                    script.async = 1;
+                    if (callback) {
+                        script.onload = function () {
+                            script.onload = script.onreadystatechange = null;
+                            callback();
+                        }
+                        script.onreadystatechange = function () {
+                            if (/complete|loaded/.test(script.readyState)) {
+                                script.onload = script.onreadystatechange = null;
+                                setTimeout(callback, 0);
+                            }
+                        };
                     }
-                });
+                    setTimeout(function () {
+                        node.parentNode.insertBefore(script, node);
+                    }, 0);
+                };
+                loader(url, function () {
+                    YUI().use('node', 'json', 'jsonp', 'dd-constrain', 'gallery-center', 'gallery-simpleslider', 'gallery-storage-lite', function (Y) {
+                        var fallback,
+                            langs = ['en-US', 'pt-BR'],
+                            lang = navigator.userLanguage || navigator.language,
+                            langShort = lang.slice(0, 2),
+                            STORAGE = Y.StorageLite;
 
-                STORAGE.on('storage-lite:ready', function () {
-                    YUI({
-                        filter: 'raw',
-                        lang: [
-                            Y.StorageLite.getItem('intl'),
-                            lang,
-                            langShort,
-                            fallback,
-                            'en-US'
-                        ],
-                        groups: {
-                            qrvoice: {
-                                combine: false,
-                                base: './js/',
-                                comboBase: './js/',
-                                root: '_',
-                                modules: {
-                                    'qrvoice': {
-                                        lang: langs,
-                                        path: 'qrvoice/qrvoice.js',
-                                        requires: ['node', 'json', 'jsonp', 'substitute', 'dd-constrain',
-                                        'gallery-center', 'gallery-simpleslider', 'gallery-storage-lite']
+                        Y.Array.some(langs, function (lng) {
+                            if (lng.slice(0, 2) === langShort) {
+                                fallback = lng;
+                                return fallback;
+                            }
+                        });
+
+                        STORAGE.on('storage-lite:ready', function () {
+                            YUI({
+                                filter: 'raw',
+                                lang: [
+                                    Y.StorageLite.getItem('intl'),
+                                    lang,
+                                    langShort,
+                                    fallback,
+                                    'en-US'
+                                ],
+                                comboSep: '_',
+                                combine: true,
+                                groups: {
+                                    qrvoice: {
+                                        base: 'js/',
+                                        combine: false,
+                                        comboBase: 'js/',
+                                        root: '',
+                                        modules: {
+                                            'qrvoice': {
+                                                lang: langs,
+                                                path: 'qrvoice/qrvoice.js',
+                                                requires: ['node', 'json', 'jsonp', 'dd-constrain',
+                                                'gallery-center', 'gallery-simpleslider', 'gallery-storage-lite']
+                                            }
+                                        }
                                     }
                                 }
-                            }
-                        }
-                    }).use('qrvoice');
+                            }).use('qrvoice');
+                        });
+                    });
                 });
-            });
+                // Google analytics
+                _gaq = [
+                    ['_setAccount', 'UA-26587471-1'],
+                    ['_trackPageview'],
+                    ['_trackPageLoadTime']
+                ];
+                loader('//www.google-analytics.com/ga.js');
+            }(document, 'script'));
         </script>
     </body>
 </html>
