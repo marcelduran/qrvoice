@@ -24,6 +24,9 @@ label {
 .hidden {
     visibility: hidden;
 }
+.invis {
+    display: none;
+}
 
 /* page layout */
 #doc {
@@ -136,6 +139,7 @@ label {
     border-color: #333 transparent transparent transparent;
     float: right;
     margin: 4px -12px 0 0;
+    overflow: hidden;
     width: 0;
 }
 #lang-lst {
@@ -202,7 +206,16 @@ label {
 
 /* middle content */
 #qrlink {
+    line-height: 1.4;
+}
+#qrlink,
+#qrcopy {
     font-size: 123.1%;
+}
+#qrcopy {
+    color: #12c;
+    text-align: center;
+    width: 13em;
 }
 #qrcode-wrp {
     border: 1px solid #acacac;
@@ -339,6 +352,12 @@ label {
     top: 4px;
     width: 14px;
 }
+.facebook .icon {
+    *top: 5px;
+}
+.twitter .icon {
+    *top: 6px;
+}
 .facebook .lbl {
     font-size: 93%;
 }
@@ -370,10 +389,10 @@ label {
     padding: 0 .4em 0 0;
 }
 #ft .icon {
-    color: transparent;
     display: inline-block;
     height: 16px;
     padding: 0 .25em;
+    text-indent: -999em;
     width: 16px;
 }
 .google {
@@ -455,41 +474,4 @@ label {
     #lang-lst {
         width: 93%;
     }
-}
-
-/* too cool for ie */
-#tip, #itip, .arrow {
-    *display: none;
-}
-#scan {
-    *left: 0;
-    *top: -8px;
-}
-#gen, #scan {
-    *background-image: url(/images/qr.png);
-}
-#gen {
-    *margin-top: 1px;
-}
-#lang-lst {
-    *left: 0;
-}
-.lang-col {
-    *display: inline;
-    *width: 24%;
-}
-#slider-box {
-    *border: none;
-    *padding: 0;
-    *width: 99%;
-}
-#slider-value {
-    *background: #eee;
-}
-#social div, #social iframe {
-    *display: inline;
-}
-.icon {
-    *background-image: url(/images/icons.png);
-    *text-indent: -999em;
 }
