@@ -1,5 +1,8 @@
 /* Copyright (c) 2011, Marcel Duran */
 
+/* display body when css is loaded */
+body {visibility: visible !important;}
+
 /* yui3 reset */
 body,div,ul,li,h1,h2,form,input{margin:0;padding:0;}
 img{border:0;}

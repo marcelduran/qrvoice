@@ -8,7 +8,7 @@ var
     // files, dirs and programs
     TMP_DIR = '/tmp/',
     SRC_DIR = './',
-    BUILD_DIR = './build/',
+    BUILD_DIR = process.argv[2] || './build/',
     IMG_DIR = 'images/',
     JS_DIR = 'js/qrvoice/',
     LANG_DIR = JS_DIR + 'lang/',
@@ -201,9 +201,6 @@ var
                 collapseWhitespace: true,
                 removeAttributeQuotes: true
             });
-
-            // hack: add closing ie conditional comments
-            minified = minified.replace('</head>', '<!--<![endif]--></head>');
 
             // write output
             saveFile(SRC_DIR + INDEX_HTML, BUILD_DIR + INDEX_HTML, {

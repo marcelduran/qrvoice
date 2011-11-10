@@ -236,6 +236,11 @@ YUI.add('qrvoice', function (Y) {
         };
 
     /**
+     * Just in case CSS fails to load, force body visible.
+     */
+    body.setStyle('visibility', 'visible');
+
+    /**
      * Event listeners, mainly delegation on body.
      */
 
