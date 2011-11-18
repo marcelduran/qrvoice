@@ -29,6 +29,8 @@ YUI.add('qrvoice', function (Y) {
         SEL_BODY = 'body',
         SEL_LINK = '#qrlink',
         SEL_COPY = '#qrcopy',
+        SEL_HELP = '#help',
+        SEL_LANG = '#lang',
 
         // minifier helpers
         YONE = Y.one,
@@ -68,20 +70,20 @@ YUI.add('qrvoice', function (Y) {
 
         // nodes
         body = YONE(SEL_BODY),
-        form = body.one('#form'),
-        msg = form.one('#msg'),
-        size = body.one('#size'),
-        thumb = body.one('#slider-thumb'),
-        qrimg = body.one('#qrcode-wrp'),
-        link = body.one(SEL_LINK),
-        copy = body.one(SEL_COPY),
+        form = YONE('#form'),
+        msg = YONE('#msg'),
+        size = YONE('#size'),
+        thumb = YONE('#slider-thumb'),
+        qrimg = YONE('#qrcode-wrp'),
+        link = YONE(SEL_LINK),
+        copy = YONE(SEL_COPY),
         copyNode = DOMNODE(copy),
-        sliderBox = body.one('#slider-box'),
-        langList = form.one('#lang-lst'),
-        langLink = form.one('#lang'),
-        langName = form.one('#lang-name'),
-        fbLink = body.one('#social .facebook'),
-        twLink = body.one('#social .twitter'),
+        sliderBox = YONE('#slider-box'),
+        langList = YONE('#lang-lst'),
+        langName = YONE('#lang-name'),
+        fbLink = YONE('#social .facebook'),
+        twLink = YONE('#social .twitter'),
+        help = YONE('#help-panel'),
 
         // size slider
         slider = new Y.apm.SimpleSlider({
@@ -250,23 +252,32 @@ YUI.add('qrvoice', function (Y) {
     form.on('submit', submitForm);
 
     /**
-     * Capture clicks around to hide language list when visible.
+     * Show/hide language list.
      */
     body.delegate(CLICK, function (e) {
         e.halt();
         langList.toggleClass(CLASS_HIDDEN);
-    }, '#lang');
+    }, SEL_LANG);
 
     /**
-     * Show/hide language list.
+     * Show/hide textless help.
      */
     body.delegate(CLICK, function (e) {
-        var comp = function (node) {
-            return node === langLink;
-        };
+        e.halt();
+        help
+            .setStyle('background', 'url(/images/help.jpg) no-repeat')
+            .toggleClass(CLASS_INVISIBLE);
+    }, SEL_HELP);
 
-        if (!e.target.ancestor(comp)) {
+    /**
+     * Capture clicks around to hide language list/textless help when visible.
+     */
+    body.delegate(CLICK, function (e) {
+        if (!e.target.ancestor(SEL_LANG)) {
             langList.addClass(CLASS_HIDDEN);
+        }
+        if (!e.target.test(SEL_HELP)) {
+            help.addClass(CLASS_INVISIBLE);
         }
     }, SEL_BODY);
 
@@ -350,6 +361,13 @@ YUI.add('qrvoice', function (Y) {
     if (INTL.direction === RTL) {
         body.addClass(RTL);
     }
+    YONE(SEL_HELP)
+        .setContent(INTL.help)
+        .set(HREF, INTL.faqFile)
+        .removeClass(CLASS_HIDDEN);
+    YONE('#faq')
+        .setContent(INTL.faq)
+        .set(HREF, INTL.faqFile);
     YONE('#tagline').setContent(INTL.tagline);
     msg
         .set(PLACEHOLDER, INTL.placeholder)
