@@ -46,6 +46,7 @@ label {
 /* heading */
 #hd {
     margin-bottom: 1em;
+    position: relative;
     text-align: left;
 }
 #hd h1 {
@@ -59,6 +60,18 @@ label {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+#help {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+#help-panel {
+    text-align: right;
+}
+#help-img {
+    height: 193px;
+    width: 600px;
 }
 
 /* form */
@@ -419,6 +432,13 @@ label {
 .rtl #lang-lst {
     text-align: right;
 }
+.rtl #help {
+    left: 0;
+    right: auto;
+}
+.rtl #help-panel {
+    text-align: left;
+}
 .rtl #frm-wrp {
     float: right;
     margin: 0 0 0 -5.538em;
@@ -477,5 +497,8 @@ label {
     }
     #lang-lst {
         width: 93%;
+    }
+    #help-panel {
+        overflow-x: auto;
     }
 }
