@@ -17,12 +17,13 @@ var
     INDEX_HTML = 'index.html',
     FAVICON = 'favicon.ico',
     LOGO = 'logo.png',
+    HELP = 'help.jpg',
     MAIN_JS = 'qrvoice.js',
     MAIN_CSS = 'qrvoice.css',
     IE_MHT = 'qrvoice.mht',
     IE_CSS = 'qrvoice.ie',
     IE_MHTML = 'qrvoice.mhtml',
-    YUICOMPRESSOR = 'java -jar ~/bin/yuicompressor-2.4.6.jar ',
+    YUICOMPRESSOR = 'java -jar ~/bin/yuicompressor-2.4.7.jar ',
     COPYRIGHT = 'Copyright (c) ' +
         (new Date()).getFullYear() + ', Marcel Duran',
 
@@ -167,7 +168,7 @@ var
         // minify index.html inline js and html
         fs.readFile(SRC_DIR + INDEX_HTML, function (error, data) {
             var minified,
-                reScript = /<script>([\d\w\s\-:=;,\.\(\)\{\}\/\\\|&'\[\]!\+\?]+)<\/script>/g;
+                reScript = /<script>([\d\w\s\-:=;,\.\(\)\{\}\/\\\|&'\[\]!\+\?#@]+)<\/script>/g;
 
             if (error) {
                 throw error;
@@ -209,6 +210,72 @@ var
                 minified: minified
             });
         });
+
+        // minify faqs inline js/css and html
+        fs.readdir(SRC_DIR, function (error, files) {
+            if (error) {
+                throw error;
+            }
+            files.forEach(function (file) {
+                if (/^faq_.+\.html/.test(file)) {
+                    fs.readFile(SRC_DIR + file, function (error, data) {
+                        var minified, tempfile,
+                            reScript = /<script>([\d\w\s\-:=;,\.\(\)\{\}\/\\\|&'\[\]!\+\?#@]+)<\/script>/g,
+                            reStyle = /<style type="text\/css">([\d\w\s\-:=;,\.\(\)\{\}\/\\\|&'\[\]!\+\?#@%]+)<\/style>/;
+
+                        if (error) {
+                            throw error;
+                        }
+
+                        // minify js
+                        data = data.toString('utf8').replace(reScript, function (all, match) {
+                            return '<script>' + minifyJSCode(match).minified + '</script>';
+                        });
+
+                        // minify css
+                        inline = reStyle.exec(data);
+                        inline = (inline && inline[1]) || '';
+                        tempfile = 'qr_' + parseInt(Math.random() * 1e9, 10) + '.css',
+                        // save content of inline css into temp file
+                        (function (file, data, tempfile, inline) {
+                            fs.writeFile(TMP_DIR + tempfile, inline, function (error) {
+                                if (error) {
+                                    throw error;
+                                }
+                                // minify temp css file
+                                minifyCSSCode(TMP_DIR + tempfile, null, function (input, output, inlineData) {
+                                    var minified;
+                                    // remove temp file
+                                    fs.unlink(TMP_DIR + tempfile);
+
+                                    // replace minified inline css
+                                    data = data.replace(reStyle, function () {
+                                        return '<style type="text/css">' + inlineData.minified + '</style>';
+                                    });
+
+                                    // minify html
+                                    minified = htmlMinifier.minify(data, {
+                                        removeComments: true,
+                                        collapseWhitespace: true,
+                                        removeAttributeQuotes: true
+                                    });
+
+                                    // write output
+                                    saveFile(SRC_DIR + file, BUILD_DIR + file, {
+                                        type: 'HTML',
+                                        original: data,
+                                        minified: minified
+                                    });
+                                });
+                            });
+                        }(file, data, tempfile, inline));
+                    });
+                }
+            });
+        });
+
+        // copy favicon
+        copyFiles(SRC_DIR + FAVICON, BUILD_DIR + FAVICON);
     };
 
     // minify JSs after creating dirs
@@ -293,7 +360,5 @@ createDir(BUILD_DIR + LANG_DIR, goJS);
 createDir(BUILD_DIR + CSS_DIR, goCSS);
 createDir(BUILD_DIR + IMG_DIR, function () {
     copyFiles(SRC_DIR + IMG_DIR + LOGO, BUILD_DIR + IMG_DIR + LOGO);
+    copyFiles(SRC_DIR + IMG_DIR + HELP, BUILD_DIR + IMG_DIR + HELP);
 });
-
-// copy favicon
-copyFiles(SRC_DIR + FAVICON, BUILD_DIR + FAVICON);
