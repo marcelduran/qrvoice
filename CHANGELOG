@@ -1,6 +1,7 @@
-November 10, 2011 - Release 0.0.5
+November 18, 2011 - Release 0.0.5
 
     * loading CSS in parallel with JS, avoiding FOUC by setting visibility
+    * added textless help flow and f.a.q.
 
 November 7, 2011 - Release 0.0.4
 
