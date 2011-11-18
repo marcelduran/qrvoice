@@ -5,9 +5,10 @@ YUI.add('lang/qrvoice_pt-BR', function (Y) {
     'use strict';
     Y.Intl.add('qrvoice', 'pt-BR', {
         direction: 'ltr', // left-to-right
-        tagline: 'quando uma imagem vale literalmente mil palavras',
-        help: 'Ajuda',
+        tagline: 'quando uma imagem vale cem caracteres',
+        help: 'ajuda',
         faq: 'perguntas frequentes',
+        faqFile: 'faq_pt-BR.html',
         placeholder: 'dizer o quê?',
         msgTitle: 'texto à ser falado (no máximo 100 caracteres)',
         genLabel: 'gerar',

@@ -5,9 +5,10 @@ YUI.add('lang/qrvoice_en-US', function (Y) {
     'use strict';
     Y.Intl.add('qrvoice', 'en-US', {
         direction: 'ltr', // left-to-right
-        tagline: 'when a picture is literally worth a thousand words',
-        help: 'Help',
+        tagline: 'when a picture is worth a hundred characters',
+        help: 'help',
         faq: 'f.a.q',
+        faqFile: 'faq_en-US.html',
         placeholder: 'say what?',
         msgTitle: 'text to speech (100 characters maximum length)',
         genLabel: 'generate',
