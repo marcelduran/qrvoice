@@ -8,7 +8,7 @@ var
     // files, dirs and programs
     TMP_DIR = '/tmp/',
     SRC_DIR = './',
-    BUILD_DIR = process.argv[2] || './build/',
+    BUILD_DIR = process.argv[3] || './build/',
     IMG_DIR = 'images/',
     JS_DIR = 'js/qrvoice/',
     LANG_DIR = JS_DIR + 'lang/',
@@ -346,7 +346,7 @@ var
 
 // set timestamp
 ts = '-' + ts.getFullYear().toString().slice(2) +
-    (ts.getMonth() + 1) + ts.getDate();
+    (ts.getMonth() + 1) + ts.getDate() + (process.argv[2] || '');
 
 // get version
 version = fs.readFileSync(SRC_DIR + 'CHANGELOG')
