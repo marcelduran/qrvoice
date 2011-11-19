@@ -68,9 +68,25 @@ YUI.add('lang/qrvoice_pt-BR', function (Y) {
                 name: 'inglês (Estados Unidos)',
                 ownName: 'English (United States)'
             },
+            /*'es-419': {
+                name: 'espanhol (América Latina)',
+                ownName: 'español (Latinoamérica)'
+            },
+            'fr': {
+                name: 'francês',
+                ownName: 'français'
+            },*/
+            'ja': {
+                name: 'japonês',
+                ownName: '日本語'
+            },
             'pt-BR': {
                 name: 'português (Brasil)'
-            }
+            }/*,
+            'zh-CN': {
+                name: 'chinês (Simplificado)',
+                ownName: '中文（简体中文）'
+            }*/
         },
         intlsTitle: 'idioma da interface do usuário',
         disclaimer: 'nota: qrvoice não é afiliado ao Yahoo!&trade; Inc., Google&trade; Inc. ou bitly&trade; Inc. em qualquer forma.'

@@ -486,7 +486,7 @@ YUI.add('qrvoice', function (Y) {
         langList.setContent(listStr);
     });
 }, '0.0.1', {
-    lang: ['en-US', 'pt-BR'],
+    lang: ['en-US', 'ja', 'pt-BR'],
     requires: ['node', 'json', 'jsonp', 'dd-constrain',
         'gallery-center', 'gallery-simpleslider', 'gallery-storage-lite']
 });
