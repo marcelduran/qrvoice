@@ -68,11 +68,11 @@ YUI.add('lang/qrvoice_pt-BR', function (Y) {
                 name: 'inglês (Estados Unidos)',
                 ownName: 'English (United States)'
             },
-            /*'es-419': {
+            'es-419': {
                 name: 'espanhol (América Latina)',
                 ownName: 'español (Latinoamérica)'
             },
-            'fr': {
+            /*'fr': {
                 name: 'francês',
                 ownName: 'français'
             },*/
