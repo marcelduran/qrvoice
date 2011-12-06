@@ -135,7 +135,8 @@ YUI.add('qrvoice', function (Y) {
                 .replace(/[í]/g, 'i')
                 .replace(/[ô]/g, 'o')
                 .replace(/[ú]/g, 'u')
-                .replace(/[ç]/g, 'c');
+                .replace(/[ç]/g, 'c')
+                .replace(/[ñ]/g, 'n');
         },
 
         /**
