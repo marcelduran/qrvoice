@@ -47,6 +47,7 @@ YUI.add('qrvoice', function (Y) {
         YNODE = Y.Node,
         YNODECREATE = YNODE.create,
         YOBJEACH = Y.Object.each,
+        YARRAY = Y.Array,
         DOMNODE = YNODE.getDOMNode,
         ENCODE = encodeURIComponent,
         ROUND = Math.round,
@@ -120,6 +121,21 @@ YUI.add('qrvoice', function (Y) {
             if (e) {
                 e.halt();
             }
+        },
+
+        /**
+         * Normalize strings for sort comparison.
+         * @param {String} str The string to be normalized.
+         * @return {String} Normilized string.
+         */
+        strNormalizer = function (str) {
+            return str.toLowerCase()
+                .replace(/[áãâ]/g, 'a')
+                .replace(/[éê]/g, 'e')
+                .replace(/[í]/g, 'i')
+                .replace(/[ô]/g, 'o')
+                .replace(/[ú]/g, 'u')
+                .replace(/[ç]/g, 'c');
         },
 
         /**
@@ -339,7 +355,7 @@ YUI.add('qrvoice', function (Y) {
     params = search.slice(1, idx).split('&').concat(
         LOC.hash.slice(1).split('&')
     );
-    Y.Array.some(params, function (p) {
+    YARRAY.some(params, function (p) {
         var param = p.split('='),
             value = param[1];
 
@@ -439,6 +455,8 @@ YUI.add('qrvoice', function (Y) {
      * Initialization depending on storage-lite readyness. IE<8 issue.
      */
     STORAGE.on('storage-lite:ready', function () {
+        var arrLangs = [];
+
         /**
          * Set initial slider value from either a persisted value or from slider
          * rail width. A ratio is used to appropriately set a valid size.
@@ -458,6 +476,8 @@ YUI.add('qrvoice', function (Y) {
         /**
          * Build spoken languages list and set the current language from
          * persisted user's choice or browser default language.
+         * It uses a temporary array to sort languages
+         * object in alphabetical order.
          */
         setLang(STORAGEGET(LANG) || languageShort);
         listStr = SUBS(
@@ -467,12 +487,26 @@ YUI.add('qrvoice', function (Y) {
             }
         );
         YOBJEACH(langs, function (name, id) {
+            arrLangs.push({
+                id: id,
+                name: name
+            });
+        });
+        arrLangs.sort(function (lang1, lang2) {
+            var name1 = strNormalizer(lang1.name),
+                name2 = strNormalizer(lang2.name);
+
+            return name1 < name2 ? -1 : 1;
+        });
+        YARRAY.each(arrLangs, function (lang) {
+            var id = lang.id;
+
             listStr += SUBS(
                 '<li><a class="lng{cls}" href="#" id="lng-{id}">{name}</a></li>',
                 {
                     cls: id === currentLang ? ' ' + CLASS_SELECT : '',
                     id: id,
-                    name: name
+                    name: lang.name
                 }
             );
             langCount += 1;
@@ -486,7 +520,7 @@ YUI.add('qrvoice', function (Y) {
         langList.setContent(listStr);
     });
 }, '0.0.1', {
-    lang: ['en-US', 'ja', 'pt-BR'],
+    lang: ['en-US', 'es-419', 'ja', 'pt-BR'],
     requires: ['node', 'json', 'jsonp', 'dd-constrain',
         'gallery-center', 'gallery-simpleslider', 'gallery-storage-lite']
 });
