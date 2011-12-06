@@ -76,7 +76,7 @@ YUI.add('lang/qrvoice_es-419', function (Y) {
                 ownName: 'français'
             },*/
             'ja': {
-                name: 'janopnés',
+                name: 'japonés',
                 ownName: '日本語'
             },
             'pt-BR': {
