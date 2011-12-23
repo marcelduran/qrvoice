@@ -85,6 +85,7 @@ YUI.add('qrvoice', function (Y) {
         fbLink = YONE('#social .facebook'),
         twLink = YONE('#social .twitter'),
         help = YONE('#help-panel'),
+        helpImg = YONE('#help-img'),
 
         // size slider
         slider = new Y.apm.SimpleSlider({
@@ -240,12 +241,16 @@ YUI.add('qrvoice', function (Y) {
             if (message && (lastMsg !== message || lastLang !== lang)) {
                 lastMsg = message;
                 lastLang = lang;
+                Y.log(message);
                 message = ENCODE(message);
+                Y.log(message);
                 voiceUrl = SUBS(URL_VOICE, {
                     msg: message,
                     lang: lang
                 });
+                Y.log(voiceUrl);
                 shortenUrl = SUBS(URL_SHORTEN, {url: ENCODE(voiceUrl)});
+                Y.log(shortenUrl);
                 Y.jsonp(shortenUrl, {
                     on: {
                         success: shortenVoice
@@ -281,9 +286,8 @@ YUI.add('qrvoice', function (Y) {
      */
     body.delegate(CLICK, function (e) {
         e.halt();
-        help
-            .setStyle('background', 'url(/images/help.jpg) no-repeat')
-            .toggleClass(CLASS_INVISIBLE);
+        helpImg.setStyle('background', 'url(/images/help.jpg) no-repeat');
+        help.toggleClass(CLASS_INVISIBLE);
     }, SEL_HELP);
 
     /**
