@@ -85,7 +85,6 @@ YUI.add('qrvoice', function (Y) {
         fbLink = YONE('#social .facebook'),
         twLink = YONE('#social .twitter'),
         help = YONE('#help-panel'),
-        helpImg = YONE('#help-img'),
 
         // size slider
         slider = new Y.apm.SimpleSlider({
@@ -286,7 +285,8 @@ YUI.add('qrvoice', function (Y) {
      */
     body.delegate(CLICK, function (e) {
         e.halt();
-        helpImg.setStyle('background', 'url(/images/help.jpg) no-repeat');
+        YONE('#help-img').setStyle('background',
+            'url(/images/help.jpg) no-repeat');
         help.toggleClass(CLASS_INVISIBLE);
     }, SEL_HELP);
 
