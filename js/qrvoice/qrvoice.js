@@ -48,6 +48,7 @@ YUI.add('qrvoice', function (Y) {
         YNODECREATE = YNODE.create,
         YOBJEACH = Y.Object.each,
         YARRAY = Y.Array,
+        YARRAYEACH = YARRAY.each,
         DOMNODE = YNODE.getDOMNode,
         ENCODE = encodeURIComponent,
         ROUND = Math.round,
@@ -137,6 +138,19 @@ YUI.add('qrvoice', function (Y) {
                 .replace(/[ú]/g, 'u')
                 .replace(/[ç]/g, 'c')
                 .replace(/[ñ]/g, 'n');
+        },
+
+        /**
+         * Sort language arrays alphabetically. To be used by array.sort.
+         * @param {Object} lang1 The 1st language obj to be compared.
+         * @param {Object} lang2 The 2nd language obj to be compared.
+         * @return {Number} -1 when 1st < 2nd or 1 otherwise.
+         */
+        langSort = function (lang1, lang2) {
+            var name1 = strNormalizer(lang1.name),
+                name2 = strNormalizer(lang2.name);
+
+            return name1 < name2 ? -1 : 1;
         },
 
         /**
@@ -428,12 +442,13 @@ YUI.add('qrvoice', function (Y) {
      */
     listStr = '';
     intl = YINTL.getLang(APPID);
-    YOBJEACH(INTL.intls, function (value, key) {
-        var ownName = value.ownName;
+    YARRAYEACH(INTL.intls.sort(langSort), function (value) {
+        var id = value.id,
+            ownName = value.ownName;
 
-        listStr += SUBS('<option value="{key}"{sel}>{opt}</option>', {
-            key: key,
-            sel: key === intl ? ' selected' : '',
+        listStr += SUBS('<option value="{id}"{sel}>{opt}</option>', {
+            id: id,
+            sel: id === intl ? ' selected' : '',
             opt: value.name + (ownName ? ' - ' + ownName : '')
         });
     });
@@ -497,13 +512,7 @@ YUI.add('qrvoice', function (Y) {
                 name: name
             });
         });
-        arrLangs.sort(function (lang1, lang2) {
-            var name1 = strNormalizer(lang1.name),
-                name2 = strNormalizer(lang2.name);
-
-            return name1 < name2 ? -1 : 1;
-        });
-        YARRAY.each(arrLangs, function (lang) {
+        YARRAYEACH(arrLangs.sort(langSort), function (lang) {
             var id = lang.id;
 
             listStr += SUBS(
@@ -525,7 +534,7 @@ YUI.add('qrvoice', function (Y) {
         langList.setContent(listStr);
     });
 }, '0.0.1', {
-    lang: ['en-US', 'es-419', 'ja', 'pt-BR'],
+    lang: ['en-US', 'es-419', 'it', 'ja', 'pt-BR'],
     requires: ['node', 'json', 'jsonp', 'dd-constrain',
         'gallery-center', 'gallery-simpleslider', 'gallery-storage-lite']
 });

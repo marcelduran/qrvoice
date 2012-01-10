@@ -13,7 +13,7 @@ YUI.add('lang/qrvoice_zh-CN', function (Y) {
         msgTitle: 'text to speech (100 characters maximum length)',
         genLabel: 'generate',
         genTitle: 'generate qr-voice',
-        whichLang: 'in {lang}',
+        whichLang: 'in {lang}', // {lang} will be replaced by a language e.g: in English
         spokenLang: 'Spoken language',
         langs: { // message spoken language
             af: 'Afrikaans',
@@ -58,36 +58,47 @@ YUI.add('lang/qrvoice_zh-CN', function (Y) {
             cy: 'Welsh'
         },
         langsNote: 'languages for playback only, not for translation',
-        'resizeTitle': 'resize qr-code',
+        resizeTitle: 'resize qr-code',
         linkTitle: 'link to this qr-code image',
         imgTitle: 'qr-code to message playback, save/scan this image or copy link above',
-        facebookButton: 'Like',
-        twitterButton: 'Tweet',
-        intls: { // user interface language
-            'en-US': {
-                name: 'English (United States)',
+        facebookButton: '赞',
+        twitterButton: '发推',
+        intls: [ // user interface language
+            {
+                id: 'en-US',
+                name: '英文（美国）',
                 ownName: 'English (United States)'
             },
-            'es-419': {
-                name: 'Spanish (Latin America)',
+            {
+                id: 'es-419',
+                name: '西班牙文（拉丁美洲）',
                 ownName: 'español (Latinoamérica)'
             },
-            'fr': {
-                name: 'French',
+            /*{
+                id: 'fr',
+                name: '法文',
                 ownName: 'français'
+            },*/
+            {
+                id: 'it',
+                name: '意大利文',
+                ownName: 'italiano'
             },
-            'ja': {
-                name: 'Japanese',
+            {
+                id: 'ja',
+                name: '日文',
                 ownName: '日本語'
             },
-            'pt-BR': {
-                name: 'Portuguese',
+            {
+                id: 'pt-BR',
+                name: '葡萄牙文（巴西）',
                 ownName: 'português (Brasil)'
             },
-            'zh-CN': {
+            {
+                id: 'zh-CN',
                 name: '中文（简体中文）'
             }
-        },
+        ],
         intlsTitle: 'user interface language',
         disclaimer: 'disclaimer: qrvoice is not affiliated with Yahoo!&trade; Inc., Google&trade; Inc. or bitly&trade; Inc. in any way.'
     });

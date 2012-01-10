@@ -137,8 +137,9 @@
                 loader(url, function () {
                     YUI().use('node', 'json', 'jsonp', 'dd-constrain', 'gallery-center', 'gallery-simpleslider', 'gallery-storage-lite', function (Y) {
                         var fallback,
-                            langs = ['en-US', 'es-419', 'ja', 'pt-BR'],
-                            lang = navigator.userLanguage || navigator.language,
+                            langs = ['en-US', 'es-419', 'it', 'ja', 'pt-BR'],
+                            nav = navigator,
+                            lang = nav.userLanguage || nav.language,
                             langShort = lang.slice(0, 2),
                             STORAGE = Y.StorageLite;
 

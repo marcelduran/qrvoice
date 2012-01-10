@@ -14,7 +14,7 @@ YUI.add('lang/qrvoice_ja', function (Y) {
         msgTitle: 'テキスト・トゥ・スピーチ （100文字以内）',
         genLabel: '作る',
         genTitle: 'qr-voice を作る',
-        whichLang: '{lang}で',
+        whichLang: '{lang}で', // {lang} will be replaced by a language e.g: in English
         spokenLang: '話し言葉',
         langs: { // message spoken language
             af: 'アフリカーンス語',
@@ -64,31 +64,42 @@ YUI.add('lang/qrvoice_ja', function (Y) {
         imgTitle: 'この qr-code を保存、あるいは上のリンクをコピーしてください',
         facebookButton: 'いいね！',
         twitterButton: 'ツイートする',
-        intls: { // user interface language
-            'en-US': {
+        intls: [ // user interface language
+            {
+                id: 'en-US',
                 name: '英語（米国）',
                 ownName: 'English (United States)'
             },
-            'es-419': {
+            {
+                id: 'es-419',
                 name: 'スペイン語（南米）',
                 ownName: 'español (Latinoamérica)'
             },
-            /*'fr': {
+            /*{
+                id: 'fr',
                 name: 'フランス語',
                 ownName: 'français'
             },*/
-            'ja': {
+            {
+                id: 'it',
+                name: 'イタリア語',
+                ownName: 'italiano'
+            },
+            {
+                id: 'ja',
                 name: '日本語'
             },
-            'pt-BR': {
+            {
+                id: 'pt-BR',
                 name: 'ポルトガル語（ブラジル）',
                 ownName: 'português (Brasil)'
             }/*,
-            'zh-CN': {
+            {
+                id: 'zh-CN',
                 name: '中国語（简体）',
                 ownName: '中文（简体中文）'
             }*/
-        },
+        ],
         intlsTitle: 'ユーザーインターフェース言語',
         disclaimer: '本サービスはYahoo!&trade;社、Google&trade;社、bitly&trade;社、とは全く関係がございません。'
     });

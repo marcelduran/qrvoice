@@ -13,7 +13,7 @@ YUI.add('lang/qrvoice_pt-BR', function (Y) {
         msgTitle: 'texto à ser falado (no máximo 100 caracteres)',
         genLabel: 'gerar',
         genTitle: 'gerar qr-voice',
-        whichLang: 'em {lang}',
+        whichLang: 'em {lang}', // {lang} will be replaced by a language e.g: in English
         spokenLang: 'Língua falada',
         langs: { // message spoken language
             af: 'africâner',
@@ -58,36 +58,47 @@ YUI.add('lang/qrvoice_pt-BR', function (Y) {
             cy: 'galês'
         },
         langsNote: 'línguas para reprodução de áudio, não para tradução',
-        'resizeTitle': 'redimensionar qr-code',
+        resizeTitle: 'redimensionar qr-code',
         linkTitle: 'link para esta imagem de qr-code',
         imgTitle: 'qr-code para reproduzir a mensagem, salve/capture esta imagem ou copie o link acima',
         facebookButton: 'Curtir',
         twitterButton: 'Tweetar',
-        intls: { // user interface language
-            'en-US': {
+        intls: [ // user interface language
+            {
+                id: 'en-US',
                 name: 'inglês (Estados Unidos)',
                 ownName: 'English (United States)'
             },
-            'es-419': {
+            {
+                id: 'es-419',
                 name: 'espanhol (América Latina)',
                 ownName: 'español (Latinoamérica)'
             },
-            /*'fr': {
+            /*{
+                id: 'fr',
                 name: 'francês',
                 ownName: 'français'
             },*/
-            'ja': {
+            {
+                id: 'it',
+                name: 'italiano',
+                ownName: 'italiano'
+            },
+            {
+                id: 'ja',
                 name: 'japonês',
                 ownName: '日本語'
             },
-            'pt-BR': {
+            {
+                id: 'pt-BR',
                 name: 'português (Brasil)'
             }/*,
-            'zh-CN': {
+            {
+                id: 'zh-CN',
                 name: 'chinês (Simplificado)',
                 ownName: '中文（简体中文）'
             }*/
-        },
+        ],
         intlsTitle: 'idioma da interface do usuário',
         disclaimer: 'nota: qrvoice não é afiliado ao Yahoo!&trade; Inc., Google&trade; Inc. ou bitly&trade; Inc. em qualquer forma.'
     });
