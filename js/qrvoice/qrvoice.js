@@ -1,4 +1,4 @@
-/* Copyright (c) 2011, Marcel Duran */
+/* Copyright (c) 2012, Marcel Duran */
 
 /*global YUI*/
 YUI.add('qrvoice', function (Y) {

@@ -1,4 +1,4 @@
-/* Copyright (c) 2011, Marcel Duran */
+/* Copyright (c) 2012, Marcel Duran */
 /* Translation by Giuliana Mesquita (giuliana_mesquita@hotmail.com) */
 
 /*global YUI*/
@@ -75,11 +75,11 @@ YUI.add('lang/qrvoice_it', function (Y) {
                 name: 'spagnolo (America Latina)',
                 ownName: 'español (Latinoamérica)'
             },
-            /*{
+            {
                 id: 'fr',
                 name: 'francese',
                 ownName: 'français'
-            },*/
+            },
             {
                 id: 'it',
                 name: 'italiano'

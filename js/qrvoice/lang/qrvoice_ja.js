@@ -1,4 +1,4 @@
-/* Copyright (c) 2011, Marcel Duran */
+/* Copyright (c) 2012, Marcel Duran */
 /* Translation by Eugene Kashida (http://twitter.com/ekashida) */
 
 /*global YUI*/
@@ -75,11 +75,11 @@ YUI.add('lang/qrvoice_ja', function (Y) {
                 name: 'スペイン語（南米）',
                 ownName: 'español (Latinoamérica)'
             },
-            /*{
+            {
                 id: 'fr',
                 name: 'フランス語',
                 ownName: 'français'
-            },*/
+            },
             {
                 id: 'it',
                 name: 'イタリア語',

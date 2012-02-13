@@ -1,4 +1,4 @@
-/* Copyright (c) 2011, Marcel Duran */
+/* Copyright (c) 2012, Marcel Duran */
 
 /*global YUI*/
 YUI.add('lang/qrvoice_en-US', function (Y) {
@@ -78,11 +78,11 @@ YUI.add('lang/qrvoice_en-US', function (Y) {
                 name: 'Italian',
                 ownName: 'italiano'
             },
-            /*{
+            {
                 id: 'fr',
                 name: 'French',
                 ownName: 'français'
-            },*/
+            },
             {
                 id: 'ja',
                 name: 'Japanese',
