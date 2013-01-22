@@ -23,7 +23,7 @@ var
     IE_MHT = 'qrvoice.mht',
     IE_CSS = 'qrvoice.ie',
     IE_MHTML = 'qrvoice.mhtml',
-    YUICOMPRESSOR = 'java -jar ~/bin/yuicompressor-2.4.7.jar ',
+    YUICOMPRESSOR = 'yuicompressor ',
     COPYRIGHT = 'Copyright (c) ' +
         (new Date()).getFullYear() + ', Marcel Duran',
 
