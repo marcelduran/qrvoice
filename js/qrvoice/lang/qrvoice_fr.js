@@ -1,4 +1,4 @@
-/* Copyright (c) 2012, Marcel Duran */
+/* Copyright (c) 2013, Marcel Duran */
 /* Translation by Romain Laboisse (labrom@gmail.com) */
 
 /*global YUI*/
@@ -78,6 +78,11 @@ YUI.add('lang/qrvoice_fr', function (Y) {
             {
                 id: 'fr',
                 name: 'français'
+            },
+            {
+                id: 'hu',
+                name: 'hongrois',
+                ownName: 'magyar'
             },
             {
                 id: 'it',

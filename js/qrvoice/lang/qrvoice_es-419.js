@@ -1,4 +1,4 @@
-/* Copyright (c) 2012, Marcel Duran */
+/* Copyright (c) 2013, Marcel Duran */
 /* Translation by Caridy Patiño (http://twitter.com/caridy) */
 
 /*global YUI*/
@@ -78,6 +78,11 @@ YUI.add('lang/qrvoice_es-419', function (Y) {
                 id: 'fr',
                 name: 'francés',
                 ownName: 'français'
+            },
+            {
+                id: 'hu',
+                name: 'húngaro',
+                ownName: 'magyar'
             },
             {
                 id: 'it',
