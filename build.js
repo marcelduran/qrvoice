@@ -345,8 +345,9 @@ var
     };
 
 // set timestamp
-ts = '-' + ts.getFullYear().toString().slice(2) +
-    (ts.getMonth() + 1) + ts.getDate() + (process.argv[2] || '');
+ts = '-' + ts.getFullYear().toString().slice(2) + (('00' + (ts.getMonth() + 1))
+    .slice((ts.getMonth() + 1).toString().length)) + ts.getDate() +
+    (process.argv[2] || '');
 
 // get version
 version = fs.readFileSync(SRC_DIR + 'CHANGELOG')

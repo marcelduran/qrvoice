@@ -96,7 +96,7 @@ YUI.add('lang/qrvoice_hu', function (Y) {
             },
             {
                 id: 'pt-BR',
-                name: 'portugál (brazíl)',
+                name: 'portugál (brazil)',
                 ownName: 'português (Brasil)'
             }/*,
             {
