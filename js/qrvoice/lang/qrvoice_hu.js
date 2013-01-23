@@ -33,14 +33,14 @@ YUI.add('lang/qrvoice_hu', function (Y) {
             de: 'német',
             el: 'görög',
             ht: 'haiti kreol',
-            hi: 'hindi',
+            hi: 'hindu',
             hu: 'magyar',
             is: 'izlandi',
             id: 'indonéz',
             it: 'olasz',
             ja: 'japán',
             ko: 'koreai',
-            la: 'laticlnm',
+            la: 'latin',
             lv: 'lett',
             mk: 'macedón',
             no: 'norvég',
@@ -49,7 +49,7 @@ YUI.add('lang/qrvoice_hu', function (Y) {
             ro: 'román',
             ru: 'orosz',
             sr: 'szerb',
-            sk: 'slovák',
+            sk: 'szlovák',
             es: 'spanyol',
             sw: 'szuahéli',
             sv: 'svéd',
@@ -61,18 +61,18 @@ YUI.add('lang/qrvoice_hu', function (Y) {
         langsNote: 'Nyelvek csak visszajátszásra – nem fordításra',
         resizeTitle: 'A QR-kód átméretezése',
         linkTitle: 'Ennek a QR-kód képnek a címe',
-        imgTitle: 'A QR-kód visszajátszáshoz mentse el/szkennelje be ezt a képet, vagy másolja le a fenti címet',
+        imgTitle: 'A QR-kód visszajátszásához mentse el/szkennelje be ezt a képet, vagy másolja le a fenti címet.',
         facebookButton: 'Tetszik',
         twitterButton: 'Tweet',
         intls: [ // user interface language
             {
                 id: 'en-US',
-                name: 'angol (Egyesült Államok)',
+                name: 'angol (egyesült államokbeli)',
                 ownName: 'English (United States)'
             },
             {
                 id: 'es-419',
-                name: 'spanyol (Latin-Amerika)',
+                name: 'spanyol (latin-amerikai)',
                 ownName: 'español (Latinoamérica)'
             },
             {
@@ -96,7 +96,7 @@ YUI.add('lang/qrvoice_hu', function (Y) {
             },
             {
                 id: 'pt-BR',
-                name: 'portugál (Brazília)',
+                name: 'portugál (brazíl)',
                 ownName: 'português (Brasil)'
             }/*,
             {
