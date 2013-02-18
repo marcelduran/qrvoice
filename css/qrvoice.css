@@ -40,7 +40,7 @@ label {
     margin: 1em auto;
     padding: 1em 2em;
     text-align: center;
-    width: 46.154em;
+    width: 47em;
 }
 
 /* heading */
@@ -330,7 +330,7 @@ label {
 
 /* social */
 #social {
-    margin-top: 2em;
+    margin: 2em 0;
 }
 #social .lnk {
     border: 1px solid #000;
