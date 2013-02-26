@@ -161,10 +161,10 @@
                             langShort = lang.slice(0, 2),
                             STORAGE = Y.StorageLite;
 
-                        idx = idx > -1 ? idx : langParam.length;
+                        idx = idx === -1 ? langParam.length : idx;
                         langParam = langParam.slice(1, idx).split('=');
                         idx = YARRAY.indexOf(langParam, 'lang');
-                        langParam = idx > -1 ? langParam[idx + 1] : undefined;
+                        langParam = idx === -1 ? undefined : langParam[idx + 1];
 
                         YARRAY.some(langs, function (lng) {
                             if (lng.slice(0, 2) === langShort) {
