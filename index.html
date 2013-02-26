@@ -16,6 +16,13 @@
         <title>QR voice</title>
         <base target="_blank">
         <link rel="apple-touch-icon" href="/images/logo.png">
+        <link rel="alternate" hreflang="en" href="http://qrvoice.net/">
+        <link rel="alternate" hreflang="es" href="http://qrvoice.net/?lang=es-419">
+        <link rel="alternate" hreflang="fr" href="http://qrvoice.net/?lang=fr">
+        <link rel="alternate" hreflang="hu" href="http://qrvoice.net/?lang=hu">
+        <link rel="alternate" hreflang="it" href="http://qrvoice.net/?lang=it">
+        <link rel="alternate" hreflang="ja" href="http://qrvoice.net/?lang=ja">
+        <link rel="alternate" hreflang="pt" href="http://qrvoice.net/?lang=pt-BR">
     </head>
     <body style="visibility:hidden">
         <div id="doc">
@@ -145,13 +152,21 @@
                 loader(url, function () {
                     YUI().use('node', 'json', 'jsonp', 'dd-constrain', 'gallery-center', 'gallery-simpleslider', 'gallery-storage-lite', function (Y) {
                         var fallback,
+                            YARRAY = Y.Array,
                             langs = ['en-US', 'es-419', 'fr', 'hu', 'it', 'ja', 'pt-BR'],
+                            langParam = location.search,
+                            idx = langParam.lastIndexOf('/'),
                             nav = navigator,
                             lang = nav.userLanguage || nav.language,
                             langShort = lang.slice(0, 2),
                             STORAGE = Y.StorageLite;
 
-                        Y.Array.some(langs, function (lng) {
+                        idx = idx > -1 ? idx : langParam.length;
+                        langParam = langParam.slice(1, idx).split('=');
+                        idx = YARRAY.indexOf(langParam, 'lang');
+                        langParam = idx > -1 ? langParam[idx + 1] : undefined;
+
+                        YARRAY.some(langs, function (lng) {
                             if (lng.slice(0, 2) === langShort) {
                                 fallback = lng;
                                 return fallback;
@@ -162,6 +177,7 @@
                             YUI({
                                 filter: 'raw',
                                 lang: [
+                                    langParam,
                                     Y.StorageLite.getItem('intl'),
                                     lang,
                                     langShort,
