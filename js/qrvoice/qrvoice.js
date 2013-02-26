@@ -260,16 +260,12 @@ YUI.add('qrvoice', function (Y) {
       if (message && (lastMsg !== message || lastLang !== lang)) {
         lastMsg = message;
         lastLang = lang;
-        Y.log(message);
         message = ENCODE(message);
-        Y.log(message);
         voiceUrl = SUBS(URL_VOICE, {
           msg: message,
           lang: lang
         });
-        Y.log(voiceUrl);
         shortenUrl = SUBS(URL_SHORTEN, {url: ENCODE(voiceUrl)});
-        Y.log(shortenUrl);
         Y.jsonp(shortenUrl, {
           on: {
             success: shortenVoice
