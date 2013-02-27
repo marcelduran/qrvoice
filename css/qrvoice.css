@@ -81,7 +81,7 @@ label {
 }
 #frm-wrp {
     float: left;
-    margin-right: -5.538em;
+    margin: 0 -5.538em -1em 0;
     width: 100%;
 }
 #frm-msg {
@@ -198,7 +198,7 @@ label {
     -webkit-border-radius: 14px;
     border-radius: 14px;
     height: 1px;
-    margin: 1.2em auto 1em auto;
+    margin: 0 auto 1em auto;
     padding: 14px;
     width: 95%;
 }
