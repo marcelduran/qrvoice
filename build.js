@@ -18,6 +18,8 @@ var
     FAVICON = 'favicon.ico',
     LOGO = 'logo.png',
     HELP = 'help.jpg',
+    STARTUP_4 = 'startup-640x920.png',
+    STARTUP_5 = 'startup-640x1096.png',
     MAIN_JS = 'qrvoice.js',
     MAIN_CSS = 'qrvoice.css',
     IE_MHT = 'qrvoice.mht',
@@ -362,4 +364,6 @@ createDir(BUILD_DIR + CSS_DIR, goCSS);
 createDir(BUILD_DIR + IMG_DIR, function () {
     copyFiles(SRC_DIR + IMG_DIR + LOGO, BUILD_DIR + IMG_DIR + LOGO);
     copyFiles(SRC_DIR + IMG_DIR + HELP, BUILD_DIR + IMG_DIR + HELP);
+    copyFiles(SRC_DIR + IMG_DIR + STARTUP_4, BUILD_DIR + IMG_DIR + STARTUP_4);
+    copyFiles(SRC_DIR + IMG_DIR + STARTUP_5, BUILD_DIR + IMG_DIR + STARTUP_5);
 });
