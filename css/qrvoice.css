@@ -481,11 +481,6 @@ label {
     padding: 0 .5em 0 0;
 }
 
-/* ads */
-.ads-narrow {
-    display: none;
-}
-
 /* mobile */
 @media screen and (max-device-width: 480px) {
     #doc {
@@ -505,11 +500,5 @@ label {
     }
     #help-panel {
         overflow-x: auto;
-    }
-    .ads-normal {
-        display: none;
-    }
-    .ads-narrow {
-        display: block;
     }
 }
