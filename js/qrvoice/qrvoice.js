@@ -419,6 +419,9 @@ YUI.add('qrvoice', function (Y) {
   YONE('#disclaimer').setContent(INTL.disclaimer);
   fbLink.one(SEL_LBL).setContent(INTL.facebookButton);
   twLink.one(SEL_LBL).setContent(INTL.twitterButton);
+  if (INTL.description) {
+    YONE('meta[name=description]').set('content', INTL.description);
+  }
 
   /**
    * Placeholder workaround for browsers that does not
