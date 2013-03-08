@@ -98,12 +98,17 @@ YUI.add('lang/qrvoice_hu', function (Y) {
                 id: 'pt-BR',
                 name: 'portugál (brazil)',
                 ownName: 'português (Brasil)'
-            }/*,
+            },
             {
                 id: 'zh-CN',
                 name: 'kínai (Egyszerűsített Han)',
-                ownName: '中文（简体中文）'
-            }*/
+                ownName: '简体中文'
+            },
+            {
+                id: 'zh-TW',
+                name: 'kínai (Hagyományos Han)',
+                ownName: '繁體中文'
+            }
         ],
         intlsTitle: 'A felhasználói felület nyelve',
         disclaimer: 'Jogi nyilatkozat: nincs semmilyen kapcsolat a QR Voice és a Yahoo!&trade; Inc., a Google&trade; Inc. vagy a bitly&trade; Inc. között.'

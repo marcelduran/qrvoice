@@ -5,6 +5,7 @@ YUI.add('lang/qrvoice_pt-BR', function (Y) {
     'use strict';
     Y.Intl.add('qrvoice', 'pt-BR', {
         direction: 'ltr', // left-to-right
+        description: 'Gerador de QR-code para mensagem de voz sintetizada',
         tagline: 'quando uma imagem vale cem caracteres',
         help: 'ajuda',
         faq: 'perguntas frequentes',
@@ -97,12 +98,17 @@ YUI.add('lang/qrvoice_pt-BR', function (Y) {
             {
                 id: 'pt-BR',
                 name: 'português (Brasil)'
-            }/*,
+            },
             {
                 id: 'zh-CN',
-                name: 'chinês (Simplificado)',
-                ownName: '中文（简体中文）'
-            }*/
+                name: 'chinês (han simplificado)',
+                ownName: '简体中文'
+            },
+            {
+                id: 'zh-TW',
+                name: 'chinês (han tradicional)',
+                ownName: '繁體中文'
+            },
         ],
         intlsTitle: 'idioma da interface do usuário',
         disclaimer: 'nota: qrvoice não é afiliado ao Yahoo!&trade; Inc., Google&trade; Inc. ou bitly&trade; Inc. em qualquer forma.'

@@ -25,6 +25,8 @@
         <link rel="alternate" hreflang="it" href="http://qrvoice.net/?lang=it">
         <link rel="alternate" hreflang="ja" href="http://qrvoice.net/?lang=ja">
         <link rel="alternate" hreflang="pt" href="http://qrvoice.net/?lang=pt-BR">
+        <link rel="alternate" hreflang="zh-CN" href="http://qrvoice.net/?lang=zh-CN">
+        <link rel="alternate" hreflang="zh-TW" href="http://qrvoice.net/?lang=zh-TW">
     </head>
     <body style="visibility:hidden">
         <div id="doc">
@@ -151,7 +153,7 @@
                     YUI().use('node', 'json', 'jsonp', 'dd-constrain', 'gallery-center', 'gallery-simpleslider', 'gallery-storage-lite', function (Y) {
                         var fallback,
                             YARRAY = Y.Array,
-                            langs = ['en-US', 'es-419', 'fr', 'hu', 'it', 'ja', 'pt-BR'],
+                            langs = ['en-US', 'es-419', 'fr', 'hu', 'it', 'ja', 'pt-BR', 'zh-CN', 'zh-TW'],
                             langParam = location.search,
                             idx = langParam.lastIndexOf('/'),
                             nav = navigator,

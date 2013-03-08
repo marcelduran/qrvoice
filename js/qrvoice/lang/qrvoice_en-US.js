@@ -97,12 +97,17 @@ YUI.add('lang/qrvoice_en-US', function (Y) {
                 id: 'pt-BR',
                 name: 'Portuguese (Brazil)',
                 ownName: 'português (Brasil)'
-            }/*,
+            },
             {
                 id: 'zh-CN',
                 name: 'Chinese (Simplified)',
-                ownName: '中文（简体中文）'
-            }*/
+                ownName: '简体中文'
+            },
+            {
+                id: 'zh-TW',
+                name: 'Chinese (Traditional)',
+                ownName: '繁體中文'
+            }
         ],
         intlsTitle: 'user interface language',
         disclaimer: 'disclaimer: qrvoice is not affiliated with Yahoo!&trade; Inc., Google&trade; Inc. or bitly&trade; Inc. in any way.'

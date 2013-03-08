@@ -98,12 +98,17 @@ YUI.add('lang/qrvoice_es-419', function (Y) {
                 id: 'pt-BR',
                 name: 'portugués (Brasil)',
                 ownName: 'português (Brasil)'
-            }/*,
+            },
             {
                 id: 'zh-CN',
                 name: 'chino (han simplificado)',
-                ownName: '中文（简体中文）'
-            }*/
+                ownName: '简体中文'
+            },
+            {
+                id: 'zh-TW',
+                name: 'chino (han tradicional)',
+                ownName: '繁體中文'
+            }
         ],
         intlsTitle: 'idioma de la interfaz de usuario',
         disclaimer: 'exención de responsabilidad: qrvoice no está afiliado con Yahoo!&trade; Inc., Google&trade; Inc. o bitly&trade; Inc. de ninguna manera.'

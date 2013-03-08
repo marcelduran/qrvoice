@@ -98,12 +98,17 @@ YUI.add('lang/qrvoice_ja', function (Y) {
                 id: 'pt-BR',
                 name: 'ポルトガル語（ブラジル）',
                 ownName: 'português (Brasil)'
-            }/*,
+            },
             {
                 id: 'zh-CN',
                 name: '中国語（简体）',
-                ownName: '中文（简体中文）'
-            }*/
+                ownName: '简体中文'
+            },
+            {
+                id: 'zh-TW',
+                name: '中国語(繁体字)',
+                ownName: '繁體中文'
+            }
         ],
         intlsTitle: 'ユーザーインターフェース言語',
         disclaimer: '本サービスはYahoo!&trade;社、Google&trade;社、bitly&trade;社、とは全く関係がございません。'
