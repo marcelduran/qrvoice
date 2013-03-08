@@ -10,6 +10,8 @@
     <xhtml:link rel="alternate" hreflang="it" href="http://qrvoice.net/?lang=it" />
     <xhtml:link rel="alternate" hreflang="ja" href="http://qrvoice.net/?lang=ja" />
     <xhtml:link rel="alternate" hreflang="pt" href="http://qrvoice.net/?lang=pt-BR" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="http://qrvoice.net/?lang=zh-CN" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="http://qrvoice.net/?lang=zh-TW" />
   </url>
   <url>
     <loc>http://qrvoice.net/?lang=es-419</loc>
@@ -20,6 +22,8 @@
     <xhtml:link rel="alternate" hreflang="it" href="http://qrvoice.net/?lang=it" />
     <xhtml:link rel="alternate" hreflang="ja" href="http://qrvoice.net/?lang=ja" />
     <xhtml:link rel="alternate" hreflang="pt" href="http://qrvoice.net/?lang=pt-BR" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="http://qrvoice.net/?lang=zh-CN" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="http://qrvoice.net/?lang=zh-TW" />
   </url>
   <url>
     <loc>http://qrvoice.net/?lang=fr</loc>
@@ -30,6 +34,8 @@
     <xhtml:link rel="alternate" hreflang="it" href="http://qrvoice.net/?lang=it" />
     <xhtml:link rel="alternate" hreflang="ja" href="http://qrvoice.net/?lang=ja" />
     <xhtml:link rel="alternate" hreflang="pt" href="http://qrvoice.net/?lang=pt-BR" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="http://qrvoice.net/?lang=zh-CN" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="http://qrvoice.net/?lang=zh-TW" />
   </url>
   <url>
     <loc>http://qrvoice.net/?lang=hu</loc>
@@ -40,6 +46,8 @@
     <xhtml:link rel="alternate" hreflang="it" href="http://qrvoice.net/?lang=it" />
     <xhtml:link rel="alternate" hreflang="ja" href="http://qrvoice.net/?lang=ja" />
     <xhtml:link rel="alternate" hreflang="pt" href="http://qrvoice.net/?lang=pt-BR" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="http://qrvoice.net/?lang=zh-CN" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="http://qrvoice.net/?lang=zh-TW" />
   </url>
   <url>
     <loc>http://qrvoice.net/?lang=it</loc>
@@ -50,6 +58,8 @@
     <xhtml:link rel="alternate" hreflang="it" href="http://qrvoice.net/?lang=it" />
     <xhtml:link rel="alternate" hreflang="ja" href="http://qrvoice.net/?lang=ja" />
     <xhtml:link rel="alternate" hreflang="pt" href="http://qrvoice.net/?lang=pt-BR" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="http://qrvoice.net/?lang=zh-CN" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="http://qrvoice.net/?lang=zh-TW" />
   </url>
   <url>
     <loc>http://qrvoice.net/?lang=ja</loc>
@@ -60,6 +70,8 @@
     <xhtml:link rel="alternate" hreflang="it" href="http://qrvoice.net/?lang=it" />
     <xhtml:link rel="alternate" hreflang="ja" href="http://qrvoice.net/?lang=ja" />
     <xhtml:link rel="alternate" hreflang="pt" href="http://qrvoice.net/?lang=pt-BR" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="http://qrvoice.net/?lang=zh-CN" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="http://qrvoice.net/?lang=zh-TW" />
   </url>
   <url>
     <loc>http://qrvoice.net/?lang=pt-BR</loc>
@@ -70,5 +82,31 @@
     <xhtml:link rel="alternate" hreflang="it" href="http://qrvoice.net/?lang=it" />
     <xhtml:link rel="alternate" hreflang="ja" href="http://qrvoice.net/?lang=ja" />
     <xhtml:link rel="alternate" hreflang="pt" href="http://qrvoice.net/?lang=pt-BR" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="http://qrvoice.net/?lang=zh-CN" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="http://qrvoice.net/?lang=zh-TW" />
+  </url>
+  <url>
+    <loc>http://qrvoice.net/?lang=zh-CN</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="http://qrvoice.net/" />
+    <xhtml:link rel="alternate" hreflang="es" href="http://qrvoice.net/?lang=es-419" />
+    <xhtml:link rel="alternate" hreflang="fr" href="http://qrvoice.net/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="hu" href="http://qrvoice.net/?lang=hu" />
+    <xhtml:link rel="alternate" hreflang="it" href="http://qrvoice.net/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="ja" href="http://qrvoice.net/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="pt" href="http://qrvoice.net/?lang=pt-BR" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="http://qrvoice.net/?lang=zh-CN" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="http://qrvoice.net/?lang=zh-TW" />
+  </url>
+  <url>
+    <loc>http://qrvoice.net/?lang=zh-TW</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="http://qrvoice.net/" />
+    <xhtml:link rel="alternate" hreflang="es" href="http://qrvoice.net/?lang=es-419" />
+    <xhtml:link rel="alternate" hreflang="fr" href="http://qrvoice.net/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="hu" href="http://qrvoice.net/?lang=hu" />
+    <xhtml:link rel="alternate" hreflang="it" href="http://qrvoice.net/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="ja" href="http://qrvoice.net/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="pt" href="http://qrvoice.net/?lang=pt-BR" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="http://qrvoice.net/?lang=zh-CN" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="http://qrvoice.net/?lang=zh-TW" />
   </url>
 </urlset>
