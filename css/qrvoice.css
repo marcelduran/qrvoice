@@ -492,6 +492,9 @@ label {
         padding: 0;
         width: auto;
     }
+    .ads {
+      margin-left: -.5em;
+    }
     #slider-box {
         width: 90%;
     }
