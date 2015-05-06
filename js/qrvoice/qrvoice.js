@@ -11,7 +11,7 @@ YUI.add('qrvoice', function (Y) {
     // const
     APPID = 'qrvoice',
     BITLY_LOGIN = APPID,
-    BITLY_APIKEY = 'R_039525bc02a0dbe1e6456752fdc17997',
+    BITLY_APIKEY = 'R_4f67037aede6407a9cac9e9073c86192',
     BITLY_DOMAIN = 'http://my.qrvoice.net/',
     URL_SHORTEN = 'http://api.bitly.com/v3/shorten?login=' +
       BITLY_LOGIN + '&apiKey=' + BITLY_APIKEY +
