@@ -57,7 +57,7 @@ var
         // set version
         code = code.replace(/, '\d+\.\d+\.\d+'/, ',\'' + version + '\'');
 
-        minified = uglifyjs.minify(code, {fromString: true});
+        minified = uglifyjs.minify(code, {fromString: true}).code;
 
         return {
             type: 'JS',
