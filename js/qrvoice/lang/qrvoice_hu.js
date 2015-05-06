@@ -1,4 +1,4 @@
-/* Copyright (c) 2013, Marcel Duran */
+/* Copyright (c) 2015, Marcel Duran */
 /* Translation by András Tuna (http://tuna.hu) */
 
 /*global YUI*/
@@ -59,7 +59,6 @@ YUI.add('lang/qrvoice_hu', function (Y) {
             cy: 'walesi'
         },
         langsNote: 'Nyelvek csak visszajátszásra – nem fordításra',
-        resizeTitle: 'A QR-kód átméretezése',
         linkTitle: 'Ennek a QR-kód képnek a címe',
         imgTitle: 'A QR-kód visszajátszásához mentse el/szkennelje be ezt a képet, vagy másolja le a fenti címet.',
         facebookButton: 'Tetszik',

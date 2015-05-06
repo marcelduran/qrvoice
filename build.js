@@ -2,7 +2,7 @@
 
 /**
  * qrvoice.net builder
- * Copyright (c) 2013, Marcel Duran 
+ * Copyright (c) 2015, Marcel Duran 
  */
 var
     // files, dirs and programs

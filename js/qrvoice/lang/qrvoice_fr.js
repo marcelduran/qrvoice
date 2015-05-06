@@ -1,4 +1,4 @@
-/* Copyright (c) 2013, Marcel Duran */
+/* Copyright (c) 2015, Marcel Duran */
 /* Translation by Romain Laboisse (labrom@gmail.com) */
 
 /*global YUI*/
@@ -59,7 +59,6 @@ YUI.add('lang/qrvoice_fr', function (Y) {
             cy: 'gallois'
         },
         langsNote: 'les langues s\'appliquent uniquement à la lecture audio, pas à la traduction',
-        resizeTitle: 'redimensionner le qr-code',
         linkTitle: 'lien vers l\'image du qr-code',
         imgTitle: 'qr-code permettant de lire le message, sauvegardez ou scannez cette image, ou copiez le lien ci-dessus',
         facebookButton: 'J\'aime',

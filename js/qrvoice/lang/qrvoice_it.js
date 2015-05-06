@@ -1,4 +1,4 @@
-/* Copyright (c) 2013, Marcel Duran */
+/* Copyright (c) 2015, Marcel Duran */
 /* Translation by Giuliana Mesquita (giuliana_mesquita@hotmail.com) */
 
 /*global YUI*/
@@ -59,7 +59,6 @@ YUI.add('lang/qrvoice_it', function (Y) {
             cy: 'gallese'
         },
         langsNote: 'lingue solo per riproduzione, nessuna traduzione',
-        resizeTitle: 'ridimensionare qr-code',
         linkTitle: 'link per la qr-code imagine',
         imgTitle: 'qr-code per la riproduzione del messaggio, salvare/catturare questa imagine o copiare il link',
         facebookButton: 'Mi piace',

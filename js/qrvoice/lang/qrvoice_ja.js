@@ -1,4 +1,4 @@
-/* Copyright (c) 2013, Marcel Duran */
+/* Copyright (c) 2015, Marcel Duran */
 /* Translation by Eugene Kashida (http://twitter.com/ekashida) */
 
 /*global YUI*/
@@ -59,7 +59,6 @@ YUI.add('lang/qrvoice_ja', function (Y) {
             cy: 'ウェールズ語'
         },
         langsNote: '言語はメッセージ再生のためであり、通訳のためではありません',
-        resizeTitle: 'qr-code のサイズ変更',
         linkTitle: 'この qr-code へのリンク',
         imgTitle: 'この qr-code を保存、あるいは上のリンクをコピーしてください',
         facebookButton: 'いいね！',

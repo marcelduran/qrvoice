@@ -1,13 +1,12 @@
-/* Copyright (c) 2013, Marcel Duran */
+/* Copyright (c) 2015, Marcel Duran */
 
 /*global YUI*/
 YUI.add('qrvoice', function (Y) {
   'use strict';
   var
     // uninitialized variables
-    ratio, idx, search, params, placeholder, intl, currentSize, intls,
-    listStr, currentLang, lastMsg, lastLang,
-    sliderWidth, initialSize, img,
+    ratio, idx, search, params, placeholder, intl, intls,
+    listStr, currentLang, lastMsg, lastLang, img, qrcodeUrl,
 
     // const
     APPID = 'qrvoice',
@@ -20,13 +19,11 @@ YUI.add('qrvoice', function (Y) {
     URL_VOICE =
       'http://translate.google.com/translate_tts?ie=UTF-8&q={msg}&tl={lang}',
     URL_QRCODE = 'http://chart.apis.google.com/chart?cht=qr&choe=UTF-8&' +
-      'chs={size}x{size}&chl={url}',
+      'chs=547x547&chl={url}',
     URL_FACEBOOK = 'http://www.facebook.com/sharer.php?t=QR%20voice&' + 
       'u=http%253A%252F%252Fqrvoice.net%2F%3Fid%3D{id}',
     URL_TWITTER = 'http://twitter.com/share?source=tweetbutton&' +
       'text=QR%20voice&url=http%3A%2F%2Fqrvoice.net%2F%3Fid%3D{id}',
-    SIZE_MIN = 33,
-    SIZE_MAX = 547,
     LANG_ROWS = 10,
     CLASS_HIDDEN = 'hidden',
     CLASS_SELECT = 'lng-sel',
@@ -58,19 +55,19 @@ YUI.add('qrvoice', function (Y) {
     DOMNODE = YNODE.getDOMNode,
     ENCODE = encodeURIComponent,
     ROUND = Math.round,
+    EMPTY = '',
     NULL = null,
     VALUE = 'value',
     LANG = 'lang',
     PLACEHOLDER = 'placeholder',
     TITLE = 'title',
     CLICK = 'click',
-    SIZE = 'size',
     RTL = 'rtl',
     ID = 'id',
     HREF = 'href',
 
     // initialized variables
-    reId = /[\d\w\-_]/g,
+    reId = /^[\d\w\-_]+$/,
     langs = INTL.langs,
     language = NAV.userLanguage || NAV.language,
     languageShort = language.slice(0, 2).toLowerCase(),
@@ -80,23 +77,15 @@ YUI.add('qrvoice', function (Y) {
     body = YONE(SEL_BODY),
     form = YONE('#form'),
     msg = YONE('#msg'),
-    size = YONE('#size'),
-    thumb = YONE('#slider-thumb'),
     qrimg = YONE('#qrcode-wrp'),
     link = YONE(SEL_LINK),
     copy = YONE(SEL_COPY),
     copyNode = DOMNODE(copy),
-    sliderBox = YONE('#slider-box'),
     langList = YONE('#lang-lst'),
     langName = YONE('#lang-name'),
     fbLink = YONE('#social .facebook'),
     twLink = YONE('#social .twitter'),
     help = YONE('#help-panel'),
-
-    // size slider
-    slider = new Y.apm.SimpleSlider({
-      node: sliderBox
-    }).render(),
 
     /**
      * Set location using either pushState when available or
@@ -184,6 +173,75 @@ YUI.add('qrvoice', function (Y) {
       STORAGESET(LANG, lang);
     },
 
+    decodeHash = function (hash) {
+      var i, len, value;
+
+      hash = hash.split('.');
+      len = hash.length;
+      for (i = 0; i < len; i++) {
+        value = parseInt(hash[i], 36) - len;
+        hash[i] = String.fromCharCode(value);
+      }
+
+      return {
+        lang: hash[0] + hash[len - 1],
+        text: hash.slice(1, len - 1).reverse().join(EMPTY)
+      };
+    },
+
+    generateHash = function (message, lang) {
+      var i, len, value, hash;
+
+      lang = lang.split(EMPTY);
+      hash = [lang[0]].concat(message.split(EMPTY).reverse(), lang[1]);
+      for (i = 0, len = hash.length; i < len; i++) {
+        value = hash[i].charCodeAt(0) + len;
+        hash[i] = value.toString(36);
+      }
+
+      return hash.join('.');
+    },
+
+    setShortLink = function(url) {
+      copy.removeClass(CLASS_INVISIBLE);
+      copy.set(VALUE, url);
+      copyNode.focus();
+      copyNode.select();
+    },
+
+    updateUrls = function (hash, url, init) {
+      // create image once
+      if (!img) {
+        img = YNODECREATE(
+          SUBS('<img id="qrcode" alt="{alt}">', {
+            alt: INTL.imgTitle
+          })
+        );
+        qrimg.append(img);
+      }
+      img.set('src', url);
+      qrimg.set(HREF, url);
+      fbLink.set(HREF, SUBS(URL_FACEBOOK, {id: hash}));
+      twLink.set(HREF, SUBS(URL_TWITTER, {id: hash}));
+      if (!init) {
+        setLocation('id=' + hash);
+      }
+    },
+
+    generateQrcodeUrl = function(message, lang) {
+      var voiceUrl, qrcodeUrl;
+
+      voiceUrl = SUBS(URL_VOICE, {
+        msg: message,
+        lang: lang
+      });
+      qrcodeUrl = SUBS(URL_QRCODE, {
+        url: voiceUrl
+      });
+
+      return qrcodeUrl;
+    },
+
     /**
      * Callback from shorten the final qr-code url from Google Charts
      * API. It sets the image src, share link, social links  and set
@@ -200,50 +258,8 @@ YUI.add('qrvoice', function (Y) {
       if (!data) {
         return;
       }
-      url = data.url;
-      hash = data.hash;
-      // create image once
-      if (!img) {
-        img = YNODECREATE(
-          SUBS('<img id="qrcode" alt="{alt}">', {
-            alt: INTL.imgTitle
-          })
-        );
-        qrimg.append(img);
-      }
-      img.set('src', url);
-      qrimg.set(HREF, url);
-      link.set(HREF, url).setContent(url);
-      fbLink.set(HREF, SUBS(URL_FACEBOOK, {id: hash}));
-      twLink.set(HREF, SUBS(URL_TWITTER, {id: hash}));
-      if (!init) {
-        setLocation('id=' + hash);
-      }
-    },
-
-    /**
-     * Callback from shorten Google translator voice url.
-     * If succeded invokes shorten qr-code url.
-     * @param {Object} resp The response from bit.ly shorten,
-     *    only data.url is used.
-     */
-    shortenVoice = function (resp) {
-      var qrcodeUrl, shortenUrl,
-        data = resp && resp.data;
-
-      if (!data) {
-        return;
-      }
-      qrcodeUrl = SUBS(URL_QRCODE, {
-        size: currentSize,
-        url: ENCODE(data.url)
-      });
-      shortenUrl = SUBS(URL_SHORTEN, {url: ENCODE(qrcodeUrl)});
-      Y.jsonp(shortenUrl, {
-        on: {
-          success: shortenQRCode
-        }
-      });
+      updateUrls(data.hash, data.url);
+      setShortLink(BITLY_DOMAIN + data.hash);
     },
 
     /**
@@ -252,7 +268,7 @@ YUI.add('qrvoice', function (Y) {
      * @param {Event} e The submit form event.
      */
     submitForm = function (e) {
-      var voiceUrl, shortenUrl,
+      var hash,
         message = msg.get(VALUE),
         lang = getLang();
 
@@ -261,16 +277,12 @@ YUI.add('qrvoice', function (Y) {
         lastMsg = message;
         lastLang = lang;
         message = ENCODE(message);
-        voiceUrl = SUBS(URL_VOICE, {
-          msg: message,
-          lang: lang
-        });
-        shortenUrl = SUBS(URL_SHORTEN, {url: ENCODE(voiceUrl)});
-        Y.jsonp(shortenUrl, {
-          on: {
-            success: shortenVoice
-          }
-        });
+        hash = generateHash(message, lang);
+        qrcodeUrl = generateQrcodeUrl(message, lang);
+        updateUrls(hash, qrcodeUrl);
+        link.removeClass(CLASS_INVISIBLE);
+        copy.addClass(CLASS_INVISIBLE);
+        copy.set(VALUE, EMPTY);
       }
     };
 
@@ -334,37 +346,15 @@ YUI.add('qrvoice', function (Y) {
    * Make qr-code image link easy to copy by
    * replacing it by a selected input text box.
    */
-  body.delegate('mouseover', function () {
+  body.delegate('click', function (e) {
+    e.halt();
     link.addClass(CLASS_INVISIBLE);
-    copy.removeClass(CLASS_INVISIBLE)
-      .set(VALUE, link.getContent());
-    copyNode.focus();
-    copyNode.select();
-  }, SEL_LINK);
-  body.delegate('mouseout', function () {
-    link.removeClass(CLASS_INVISIBLE);
-    copy.addClass(CLASS_INVISIBLE);
-  }, SEL_COPY);
-
-  /**
-   * Resize qr-code image when slider is changed. Updade image
-   * dimensions label and persist last size selection.
-   * Size is validated and adjusted when necessary.
-   */
-  slider.on('valueChange', function (e) {
-    var value = initialSize || ROUND(e.newVal[0] * ratio) + SIZE_MIN;
-
-    initialSize = 0;
-    value = value < SIZE_MIN ? SIZE_MIN :
-        value > SIZE_MAX ? SIZE_MAX : value;
-    currentSize = value;
-    STORAGESET(SIZE, value);
-    size.setContent(value + 'x' + value);
-    qrimg.setStyles({
-      height: value,
-      width: value
+    Y.jsonp(SUBS(URL_SHORTEN, {url: ENCODE(qrcodeUrl)}), {
+      on: {
+        success: shortenQRCode
+      }
     });
-  });
+  }, SEL_LINK);
 
   /**
    * Check initial parameters from location (querystring and hash) looking
@@ -377,19 +367,25 @@ YUI.add('qrvoice', function (Y) {
     LOC.hash.slice(1).split('&')
   );
   YARRAY.some(params, function (p) {
-    var param = p.split('='),
+    var url, message,
+      param = p.split('='),
       value = param[1];
 
-    if (param[0] === ID && reId.test(value)) {
-      shortenQRCode({
-        data: {
-          url: BITLY_DOMAIN + value,
-          hash: value
-        }
-      }, 1);
+    if (param[0] === ID && value) {
+      if (reId.test(value)) {
+        url = BITLY_DOMAIN + value;
+        setShortLink(url);
+      } else {
+        message = decodeHash(value);
+        qrcodeUrl = generateQrcodeUrl(message.text, message.lang);
+        url = qrcodeUrl;
+        link.removeClass(CLASS_INVISIBLE);
+      }
+      updateUrls(value, url, 1);
 
       return 1;
     }
+
   });
 
   /**
@@ -412,8 +408,9 @@ YUI.add('qrvoice', function (Y) {
   YONE('#lbl-msg').setContent(INTL.msgTitle);
   YONE('#gen').set(TITLE, INTL.genTitle);
   YONE('#lbl-gen').setContent(INTL.genLabel);
-  thumb.set(TITLE, INTL.resizeTitle);
-  link.set(TITLE, INTL.linkTitle);
+  link
+    .setContent(INTL.linkTitle)
+    .set(TITLE, INTL.linkTitle);
   qrimg.set(TITLE, INTL.imgTitle);
   YONE('#lbl-intls').setContent(INTL.intlsTitle);
   YONE('#disclaimer').setContent(INTL.disclaimer);
@@ -445,7 +442,7 @@ YUI.add('qrvoice', function (Y) {
   /**
    * Set intls list from available languages.
    */
-  listStr = '';
+  listStr = EMPTY;
   intl = YINTL.getLang(APPID);
   YARRAYEACH(INTL.intls.sort(langSort), function (value) {
     var id = value.id,
@@ -453,8 +450,8 @@ YUI.add('qrvoice', function (Y) {
 
     listStr += SUBS('<option value="{id}"{sel}>{opt}</option>', {
       id: id,
-      sel: id === intl ? ' selected' : '',
-      opt: value.name + (ownName ? ' - ' + ownName : '')
+      sel: id === intl ? ' selected' : EMPTY,
+      opt: value.name + (ownName ? ' - ' + ownName : EMPTY)
     });
   });
   intls = YNODECREATE(
@@ -483,20 +480,6 @@ YUI.add('qrvoice', function (Y) {
   STORAGE.on('storage-lite:ready', function () {
     var arrLangs = [];
 
-    /**
-     * Set initial slider value from either a persisted value or from slider
-     * rail width. A ratio is used to appropriately set a valid size.
-     */
-    sliderWidth = parseInt(sliderBox.getStyle('width'), 10);
-    ratio = (SIZE_MAX - SIZE_MIN + 1) / sliderWidth;
-    currentSize = STORAGEGET(SIZE);
-    if (currentSize) {
-      initialSize = currentSize;
-    } else {
-      currentSize = sliderWidth;
-    }
-    slider.update([ROUND((currentSize - SIZE_MIN) / ratio), 0]);
-    thumb.removeClass(CLASS_HIDDEN);
     qrimg.removeClass(CLASS_HIDDEN);
 
     /**
@@ -524,7 +507,7 @@ YUI.add('qrvoice', function (Y) {
       listStr += SUBS(
         '<li><a class="lng{cls}" href="#" id="lng-{id}">{name}</a></li>',
         {
-          cls: id === currentLang ? ' ' + CLASS_SELECT : '',
+          cls: id === currentLang ? ' ' + CLASS_SELECT : EMPTY,
           id: id,
           name: lang.name
         }
@@ -542,5 +525,5 @@ YUI.add('qrvoice', function (Y) {
 }, '0.0.1', {
   lang: ['en-US', 'es-419', 'it', 'ja', 'pt-BR'],
   requires: ['node', 'json', 'jsonp', 'dd-constrain',
-    'gallery-center', 'gallery-simpleslider', 'gallery-storage-lite']
+    'gallery-center', 'gallery-storage-lite']
 });

@@ -1,4 +1,4 @@
-/* Copyright (c) 2013, Marcel Duran */
+/* Copyright (c) 2015, Marcel Duran */
 /* Translation by Caridy Patiño (http://twitter.com/caridy) */
 
 /*global YUI*/
@@ -59,7 +59,6 @@ YUI.add('lang/qrvoice_es-419', function (Y) {
             cy: 'galés'
         },
         langsNote: 'idioma sólo para reproducción, no para traducción',
-        resizeTitle: 'cambiar el tamaño del qr-code',
         linkTitle: 'enlace a esta imagen qr-code',
         imgTitle: 'qr-code para reproducir el mensaje, guardar/escanear esta imagen o copiar el enlace de arriba',
         facebookButton: 'Me gusta',

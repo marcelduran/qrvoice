@@ -1,4 +1,4 @@
-/* Copyright (c) 2013, Marcel Duran */
+/* Copyright (c) 2015, Marcel Duran */
 
 /*global YUI*/
 YUI.add('lang/qrvoice_pt-BR', function (Y) {
@@ -59,7 +59,6 @@ YUI.add('lang/qrvoice_pt-BR', function (Y) {
             cy: 'galês'
         },
         langsNote: 'línguas para reprodução de áudio, não para tradução',
-        resizeTitle: 'redimensionar qr-code',
         linkTitle: 'link para esta imagem de qr-code',
         imgTitle: 'qr-code para reproduzir a mensagem, salve/capture esta imagem ou copie o link acima',
         facebookButton: 'Curtir',

@@ -1,4 +1,4 @@
-/* Copyright (c) 2013, Marcel Duran */
+/* Copyright (c) 2015, Marcel Duran */
 /* Translation by Wenyu Zhang (http://twitter.com/wyz) */
 
 /*global YUI*/
@@ -60,7 +60,6 @@ YUI.add('lang/qrvoice_zh-TW', function (Y) {
             cy: '威爾斯文'
         },
         langsNote: '這些語言只是用來回放您的訊息，並不是用來翻譯您的訊息',
-        resizeTitle: '調整QR碼大小',
         linkTitle: '這個QR碼的鏈接',
         imgTitle: '訊息回放QR碼，保存這張圖片並掃描，或者拷貝上面的連接',
         facebookButton: '喜歡',
