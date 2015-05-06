@@ -25,7 +25,6 @@ var
     IE_MHT = 'qrvoice.mht',
     IE_CSS = 'qrvoice.ie',
     IE_MHTML = 'qrvoice.mhtml',
-    YUICOMPRESSOR = 'yuicompressor ',
     COPYRIGHT = 'Copyright (c) ' +
         (new Date()).getFullYear() + ', Marcel Duran',
 
@@ -34,8 +33,7 @@ var
     exec = require('child_process').exec,
     htmlMinifier = require('html-minifier'),
     uglifyjs = require('uglify-js'),
-    jsp = uglifyjs.parser,
-    pro = uglifyjs.uglify,
+    cleancss = new (require('clean-css'))(),
 
     // timestamp
     ts = new Date(),
@@ -59,13 +57,7 @@ var
         // set version
         code = code.replace(/, '\d+\.\d+\.\d+'/, ',\'' + version + '\'');
 
-        minified = pro.gen_code(
-            pro.ast_squeeze(
-                pro.ast_mangle(
-                    jsp.parse(code)
-                )
-            )
-        );
+        minified = uglifyjs.minify(code, {fromString: true});
 
         return {
             type: 'JS',
@@ -76,16 +68,11 @@ var
 
     // css minifier
     minifyCSSCode = function (input, output, callback) {
-        exec(YUICOMPRESSOR + input, function (error, stdout) {
-            if (error) {
-                throw error;
-            }
-            fs.readFile(input, function (error, data) {
-                callback(input, output, {
-                    type: 'CSS',
-                    original: data.toString('utf8'),
-                    minified: stdout
-                });
+        fs.readFile(input, function (error, data) {
+            callback(input, output, {
+                type: 'CSS',
+                original: data.toString('utf8'),
+                minified: cleancss.minify(data.toString('utf8')).styles
             });
         });
     },
@@ -315,7 +302,7 @@ var
             css = css.replace(/url\(data:.+\)/, 'url(mhtml:{CSS_URL}!icons)');
             // get ie css content
             fs.readFile(SRC_DIR + CSS_DIR + IE_CSS, function (err, ie) {
-                // generate temp file for yuicompressor and final css ie filename
+                // generate temp file for css compressor and final css ie filename
                 var filename = 'qr_' + parseInt(Math.random() * 1e9, 10) + '.css',
                     cssFilename = IE_MHT.replace('.', ts + '.');
                 ie = ie.toString('utf8');
