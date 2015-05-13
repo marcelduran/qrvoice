@@ -198,14 +198,20 @@ label {
     border-radius: 5px;
     color: black;
     cursor: pointer;
-    padding: 4px;
+    padding: 5px 10px;
 }
 #qrlink,
 #qrcopy {
+    display: inline-block;
     font-size: 123.1%;
+}
+#qrlink.invis,
+#qrcopy.invis {
+    display: none;
 }
 #qrcopy {
     color: #12c;
+    padding: 4px;
     text-align: center;
     width: 14em;
 }

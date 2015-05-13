@@ -236,7 +236,7 @@ YUI.add('qrvoice', function (Y) {
         lang: lang
       });
       qrcodeUrl = SUBS(URL_QRCODE, {
-        url: voiceUrl
+        url: ENCODE(voiceUrl)
       });
 
       return qrcodeUrl;
