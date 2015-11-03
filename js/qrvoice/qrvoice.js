@@ -278,7 +278,7 @@ YUI.add('qrvoice', function (Y) {
         lastMsg = message;
         lastLang = lang;
         message = ENCODE(message);
-        hash = generateHash(message, lang);
+        hash = generateHash(message, currentLang);
         qrcodeUrl = generateQrcodeUrl(message, lang);
         updateUrls(hash, qrcodeUrl);
         link.removeClass(CLASS_INVISIBLE);
