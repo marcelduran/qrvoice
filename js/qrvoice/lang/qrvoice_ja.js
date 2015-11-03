@@ -28,6 +28,7 @@ YUI.add('lang/qrvoice_ja', function (Y) {
             da: 'デンマーク語',
             nl: 'オランダ語',
             en: '英語',
+            eg: 'イギリス英語',
             fi: 'フィンランド語',
             fr: 'フランス語',
             de: 'ドイツ語',

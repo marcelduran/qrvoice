@@ -28,6 +28,7 @@ YUI.add('lang/qrvoice_hu', function (Y) {
             da: 'dán',
             nl: 'holland',
             en: 'angol',
+            eg: 'brit angol',
             fi: 'finn',
             fr: 'francia',
             de: 'német',

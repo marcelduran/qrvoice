@@ -24,7 +24,7 @@ YUI.add('qrvoice', function (Y) {
       'u=http%253A%252F%252Fqrvoice.net%2F%3Fid%3D{id}',
     URL_TWITTER = 'http://twitter.com/share?source=tweetbutton&' +
       'text=QR%20voice&url=http%3A%2F%2Fqrvoice.net%2F%3Fid%3D{id}',
-    LANG_ROWS = 10,
+    LANG_ROWS = 11,
     CLASS_HIDDEN = 'hidden',
     CLASS_SELECT = 'lng-sel',
     CLASS_INVISIBLE = 'invis',
@@ -155,7 +155,8 @@ YUI.add('qrvoice', function (Y) {
      * @return {String} The appropriate language code.
      */
     getLang = function () {
-      return currentLang === 'zh' ? 'zh-CN' : currentLang;
+      return currentLang === 'zh' ? 'zh-CN' : currentLang === 'eg' ? 'en-GB' :
+        currentLang;
     },
 
     /**
@@ -233,7 +234,7 @@ YUI.add('qrvoice', function (Y) {
 
       voiceUrl = SUBS(URL_VOICE, {
         msg: message,
-        lang: lang
+        lang: getLang()
       });
       qrcodeUrl = SUBS(URL_QRCODE, {
         url: ENCODE(voiceUrl)
@@ -377,6 +378,7 @@ YUI.add('qrvoice', function (Y) {
         setShortLink(url);
       } else {
         message = decodeHash(value);
+        setLang(message.lang);
         qrcodeUrl = generateQrcodeUrl(message.text, message.lang);
         url = qrcodeUrl;
         link.removeClass(CLASS_INVISIBLE);

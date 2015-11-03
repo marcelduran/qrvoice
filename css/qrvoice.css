@@ -177,7 +177,7 @@ label {
 .lang-col {
     display: -moz-inline-stack;
     display: inline-block;
-    margin: 0 0 -1em 0;
+    margin: 0;
     padding: 0;
     vertical-align: top;
     width: 25%;

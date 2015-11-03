@@ -29,6 +29,7 @@ YUI.add('lang/qrvoice_zh-TW', function (Y) {
             da: '丹麥文',
             nl: '荷蘭文',
             en: '英文',
+            eg: '英式英語',
             fi: '芬蘭文',
             fr: '法文',
             de: '德文',

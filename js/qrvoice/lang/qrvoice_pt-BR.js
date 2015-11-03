@@ -28,6 +28,7 @@ YUI.add('lang/qrvoice_pt-BR', function (Y) {
             da: 'dinamarquês',
             nl: 'holandês',
             en: 'inglês',
+            eg: 'inglês britânico',
             fi: 'finlandês',
             fr: 'francês',
             de: 'alemão',
