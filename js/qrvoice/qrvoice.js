@@ -16,8 +16,8 @@ YUI.add('qrvoice', function (Y) {
     URL_SHORTEN = 'http://api.bitly.com/v3/shorten?login=' +
       BITLY_LOGIN + '&apiKey=' + BITLY_APIKEY +
       '&longUrl={url}&format=json&callback={callback}',
-    URL_VOICE =
-      'http://translate.google.com/translate_tts?ie=UTF-8&q={msg}&tl={lang}',
+    URL_VOICE = 'http://translate.google.com/translate_tts?' +
+      'ie=UTF-8&client=t&q={msg}&tl={lang}',
     URL_QRCODE = 'http://chart.apis.google.com/chart?cht=qr&choe=UTF-8&' +
       'chs=547x547&chl={url}',
     URL_FACEBOOK = 'http://www.facebook.com/sharer.php?t=QR%20voice&' + 
