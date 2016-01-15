@@ -1,4 +1,4 @@
-/* Copyright (c) 2015, Marcel Duran */
+/* Copyright (c) 2016, Marcel Duran */
 /* Translation by Giuliana Mesquita (giuliana_mesquita@hotmail.com) */
 
 /*global YUI*/

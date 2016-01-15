@@ -1,4 +1,4 @@
-/* Copyright (c) 2015, Marcel Duran */
+/* Copyright (c) 2016, Marcel Duran */
 /* Translation by Romain Laboisse (labrom@gmail.com) */
 
 /*global YUI*/

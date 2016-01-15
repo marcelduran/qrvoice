@@ -1,4 +1,4 @@
-/* Copyright (c) 2015, Marcel Duran */
+/* Copyright (c) 2016, Marcel Duran */
 /* Translation by Caridy Patiño (http://twitter.com/caridy) */
 
 /*global YUI*/

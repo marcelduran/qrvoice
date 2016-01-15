@@ -32,4 +32,4 @@ Marcel Duran :: qrvoice@marcelduran.com
 *e-mail me for questions and feedback*
 
 
-Copyright (c) 2015, Marcel Duran
+Copyright (c) 2016, Marcel Duran
